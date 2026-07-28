@@ -1,8 +1,8 @@
 import './App.css'
 import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
+import About from './sections/About'
 
-const About = () => <section id="about" />
 const Services = () => <section id="services" />
 const Transformations = () => <section id="transformations" />
 const Testimonials = () => <section id="testimonials" />
