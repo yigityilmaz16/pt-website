@@ -1,3 +1,15 @@
+import './App.css'
+import Navbar from './components/Navbar'
+import Hero from './sections/Hero'
+
+const About = () => <section id="about" />
+const Services = () => <section id="services" />
+const Transformations = () => <section id="transformations" />
+const Testimonials = () => <section id="testimonials" />
+const Faq = () => <section id="faq" />
+const Contact = () => <section id="contact" />
+const Footer = () => <footer />
+
 function App(){
   return(
     <div>
@@ -13,3 +25,5 @@ function App(){
     </div>
   );
 }
+
+export default App
