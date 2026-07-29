@@ -4,8 +4,8 @@ import Hero from './sections/Hero'
 import About from './sections/About'
 import Services from './sections/Services'
 import Transformations from './sections/Transformations'
+import Testimonials from './sections/Testimonials'
 
-const Testimonials = () => <section id="testimonials" />
 const Faq = () => <section id="faq" />
 const Contact = () => <section id="contact" />
 const Footer = () => <footer />
