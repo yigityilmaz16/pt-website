@@ -32,7 +32,7 @@ const transformations=[
     return(
         <section id="transformations" className="transformations">
             <div className="transformations-header">
-                <h4>Öne Çıkan Değişimlerimiz</h4>
+                <h4>Öne Çıkan Dönüşümlerimiz</h4>
                 <p>Değişime sen de hemen başla.</p>
             </div>
             <div className="transformations-grid">

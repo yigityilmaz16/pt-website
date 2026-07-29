@@ -1396,7 +1396,7 @@
 }
 
 .transformations-header h4 {
-  max-width: 760px;
+  max-width: 900px;
   margin: 0 auto;
   color: #fff;
   font-size: clamp(2.25rem, 4.5vw, 4.1rem);
