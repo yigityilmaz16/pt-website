@@ -3,8 +3,8 @@ import Navbar from './components/Navbar'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Services from './sections/Services'
+import Transformations from './sections/Transformations'
 
-const Transformations = () => <section id="transformations" />
 const Testimonials = () => <section id="testimonials" />
 const Faq = () => <section id="faq" />
 const Contact = () => <section id="contact" />
