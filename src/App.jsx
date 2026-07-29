@@ -5,9 +5,9 @@ import About from './sections/About'
 import Services from './sections/Services'
 import Transformations from './sections/Transformations'
 import Testimonials from './sections/Testimonials'
+import Contact from './sections/Contact'
 
 const Faq = () => <section id="faq" />
-const Contact = () => <section id="contact" />
 const Footer = () => <footer />
 
 function App(){
