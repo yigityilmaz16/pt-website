@@ -2318,3 +2318,241 @@
     transition: none;
   }
 }
+
+/* ========================================
+   FOOTER
+======================================== */
+
+.footer {
+  position: relative;
+  padding: clamp(38px, 4vw, 52px) 24px 20px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 56px);
+  color: #fff;
+  background: #030303;
+}
+
+.footer::before {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(100% - 48px, 1180px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(225, 6, 0, 0.65), transparent);
+  content: "";
+  transform: translateX(-50%);
+}
+
+.footer > div,
+.footer > nav {
+  min-width: 0;
+}
+
+/* Footer brand */
+.footer-left p {
+  margin: 0;
+}
+
+.footer-left p:first-child {
+  color: #fff;
+  font-size: clamp(1.45rem, 2.5vw, 2rem);
+  font-weight: 950;
+  letter-spacing: -0.045em;
+}
+
+.footer-left p:first-child::after {
+  color: #e10600;
+  content: ".";
+}
+
+.footer-left p:last-child {
+  max-width: 340px;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* Footer navigation */
+.footer-center {
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+}
+
+.footer-between {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.2vw, 32px);
+}
+
+.footer-between a {
+  white-space: nowrap;
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.86rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-signature {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 0.84rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
+.footer-signature-icon {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 auto;
+}
+
+.footer-signature strong {
+  color: #fff;
+  font-weight: 850;
+}
+
+/* Footer social links */
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-self: end;
+}
+
+.footer-right a {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.76);
+  text-decoration: none;
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.footer-social-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* Footer copyright */
+.footer-behind {
+  position: relative;
+  grid-column: 1 / -1;
+  padding-top: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.footer-behind p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.72rem;
+}
+
+.footer-behind .footer-signature {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1;
+  padding: 0 14px;
+  background: #030303;
+  transform: translate(-50%, -50%);
+}
+
+/* Footer interactions */
+@media (hover: hover) and (pointer: fine) {
+  .footer-between a:hover,
+  .footer-signature:hover {
+    color: #ff3b35;
+  }
+
+  .footer-right a:hover {
+    color: #fff;
+    border-color: #e10600;
+    background: #e10600;
+  }
+}
+
+/* Footer responsive */
+@media (max-width: 900px) {
+  .footer {
+    grid-template-columns: 1fr auto;
+  }
+
+  .footer-between {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .footer-center {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .footer-right {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .footer {
+    padding: 38px 18px 20px;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    text-align: center;
+  }
+
+  .footer-left p:last-child {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .footer-between {
+    grid-column: 1;
+    grid-row: auto;
+    justify-items: center;
+    justify-content: center;
+    gap: 12px 20px;
+  }
+
+  .footer-center {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .footer-right {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: center;
+  }
+
+  .footer-behind {
+    grid-column: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-between a,
+  .footer-right a,
+  .footer-signature {
+    transition: none;
+  }
+}
