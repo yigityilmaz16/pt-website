@@ -1,55 +1,7 @@
 import { Link } from "react-router-dom";
+import programs from "../data/programs";
 
 function Services(){
-    const programs=[
-        {
-            id:1,
-            duration:"1 Aylık",
-            slug:"1-aylik-paket",
-            oldPrice:"5.000 TL",
-            discount:"%10 İndirim",
-            price:"4.500 TL",
-            features:[
-                "Kişiye özel antrenman programı",
-                "Beslenme planı",
-                "Haftalık form kontrolü",
-                "WhatsApp desteği"
-            ],
-            popular:false
-        },
-        {
-            id:2,
-            duration:"3 Aylık",
-            slug:"3-aylik-paket",
-            oldPrice:"15.000 TL",
-            discount:"%20 İndirim",
-            price:"12.000 TL",
-            features:[
-                "Kişiye özel antrenman programı",
-                "Beslenme planı",
-                "Haftalık form kontrolü",
-                "WhatsApp desteği",
-                "Aylık gelişim formu"
-            ],
-            popular:true       
-        },
-        {
-            id:3,
-            duration:"6 Aylık",
-            slug:"6-aylik-paket",
-            oldPrice:"30.000 TL",
-            discount:"%25 İndirim",
-            price:"22.500 TL",
-            features:[
-                "Kişiye özel antrenman programı",
-                "Beslenme planı",
-                "Haftalık form kontrolü",
-                "WhatsApp desteği",
-                "Öncelikli destek"
-            ],
-            popular:false
-        }
-    ]
     return(
         <section id="services" className="services">
         <div className="services-header">
