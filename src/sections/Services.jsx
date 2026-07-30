@@ -5,7 +5,7 @@ function Services(){
     return(
         <section id="services" className="services">
         <div className="services-header">
-            <h2>Programlar</h2>
+            <h2>Paketler</h2>
             <p>Hedefine uygun olan paketi seç ve hemen başla.</p>
         </div>
         <div className="services-grid">

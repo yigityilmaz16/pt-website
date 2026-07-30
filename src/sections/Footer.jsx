@@ -8,7 +8,7 @@ function Footer(){
             <div className="footer-center">
                 <nav className="footer-between" aria-label="Footer menüsü">
                     <a href="#about">Hakkımda</a>
-                    <a href="#services">Programlar</a>
+                    <a href="#services">Paketler</a>
                     <a href="#transformations">Dönüşümler</a>
                     <a href="#testimonials">Yorumlar</a>
                     <a href="#contact">İletişim</a>
