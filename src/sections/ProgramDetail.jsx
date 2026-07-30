@@ -38,6 +38,10 @@ function ProgramDetail(){
                         </div>
                     </div>
 
+                    <div className="program-detail__visual">
+                        <img src={programImage} alt="Online koçluk programı" />
+                    </div>
+
                     <div className="program-detail__features">
                         <h2>Programa Dahil Olanlar</h2>
                         <ul>
@@ -50,10 +54,6 @@ function ProgramDetail(){
                             Satın Al
                         </button>
                     </div>
-                </div>
-
-                <div className="program-detail__visual">
-                    <img src={programImage} alt="Online koçluk programı" />
                 </div>
             </section>
         </main>
