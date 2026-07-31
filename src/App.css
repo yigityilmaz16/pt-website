@@ -2407,6 +2407,27 @@
     transform 180ms ease;
 }
 
+.contact-card button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+}
+
+.contact-form-message {
+  margin: 2px 0 0;
+  grid-column: 1 / -1;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.contact-form-message--error {
+  color: #ff625d;
+}
+
+.contact-form-message--success {
+  color: #58d68d;
+}
+
 /* Contact interactions */
 @media (hover: hover) and (pointer: fine) {
   .contact-info > p a:hover {
