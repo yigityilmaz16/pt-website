@@ -1,3 +1,6 @@
+import authenticateAdmin from "./middleware/authenticateAdmin.js"
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
 import prisma from "./lib/prisma.js"
 import cors from 'cors'
 import 'dotenv/config'
@@ -7,10 +10,270 @@ const app = express()
 const port = process.env.PORT || 5000
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
 
-  const messages= []
+
 
 app.use(cors({ origin: clientUrl }))
 app.use(express.json())
+
+app.post("/api/admin/login", async (req, res) => {
+  const { email, password } = req.body
+
+  if (
+    typeof email !== "string" ||
+    typeof password !== "string" ||
+    !email.trim() ||
+    !password
+  ) {
+    return res.status(400).json({
+      message: "E-posta ve şifre zorunludur.",
+    })
+  }
+
+  try {
+    const admin = await prisma.admin.findUnique({
+      where: {
+        email: email.trim().toLowerCase(),
+      },
+    })
+
+    if (!admin) {
+      return res.status(401).json({
+        message: "E-posta veya şifre hatalı.",
+      })
+    }
+
+    const passwordMatches = await bcrypt.compare(
+      password,
+      admin.passwordHash,
+    )
+
+    if (!passwordMatches) {
+      return res.status(401).json({
+        message: "E-posta veya şifre hatalı.",
+      })
+    }
+
+    const token = jwt.sign(
+      {
+        adminId: admin.id,
+        email: admin.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "8h",
+      },
+    )
+
+    res.json({
+      token,
+      admin: {
+        id: admin.id,
+        email: admin.email,
+      },
+    })
+  } catch (error) {
+    console.error("Admin girişi başarısız:", error)
+
+    res.status(500).json({
+      message: "Giriş işlemi tamamlanamadı.",
+    })
+  }
+})
+
+app.get("/api/admin/messages", authenticateAdmin, async (req, res) => {
+  try {
+    const messages = await prisma.contactMessage.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    res.json(messages)
+  } catch (error) {
+    console.error("Mesajlar alınamadı:", error)
+
+    res.status(500).json({
+      message: "Mesajlar alınamadı.",
+    })
+  }
+})
+
+app.get(
+  "/api/admin/testimonials",
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      const testimonials = await prisma.testimonial.findMany({
+        orderBy: {
+          createdAt: "desc",
+        },
+      })
+
+      res.json(testimonials)
+    } catch (error) {
+      console.error("Admin yorumları alınamadı:", error)
+
+      res.status(500).json({
+        message: "Yorumlar alınamadı.",
+      })
+    }
+  },
+)
+
+app.patch(
+  "/api/admin/testimonials/:id/approve",
+  authenticateAdmin,
+  async (req, res) => {
+    const testimonialId = Number(req.params.id)
+
+    if (!Number.isInteger(testimonialId) || testimonialId <= 0) {
+      return res.status(400).json({
+        message: "Geçersiz yorum ID değeri.",
+      })
+    }
+
+    try {
+      const testimonial = await prisma.testimonial.update({
+        where: {
+          id: testimonialId,
+        },
+        data: {
+          approved: true,
+        },
+      })
+
+      res.json(testimonial)
+    } catch (error) {
+      if (error.code === "P2025") {
+        return res.status(404).json({
+          message: "Yorum bulunamadı.",
+        })
+      }
+
+      console.error("Yorum onaylanamadı:", error)
+
+      res.status(500).json({
+        message: "Yorum onaylanamadı.",
+      })
+    }
+  },
+)
+
+
+app.delete(
+  "/api/admin/testimonials/:id",
+  authenticateAdmin,
+  async (req, res) => {
+    const testimonialId = Number(req.params.id)
+
+    if (!Number.isInteger(testimonialId) || testimonialId <= 0) {
+      return res.status(400).json({
+        message: "Geçersiz yorum ID değeri.",
+      })
+    }
+
+    try {
+      await prisma.testimonial.delete({
+        where: {
+          id: testimonialId,
+        },
+      })
+
+      res.json({
+        message: "Yorum silindi.",
+      })
+    } catch (error) {
+      if (error.code === "P2025") {
+        return res.status(404).json({
+          message: "Yorum bulunamadı.",
+        })
+      }
+
+      console.error("Yorum silinemedi:", error)
+
+      res.status(500).json({
+        message: "Yorum silinemedi.",
+      })
+    }
+  },
+)
+
+app.patch(
+  "/api/admin/messages/:id/read",
+  authenticateAdmin,
+  async (req, res) => {
+    const messageId = Number(req.params.id)
+
+    if (!Number.isInteger(messageId) || messageId <= 0) {
+      return res.status(400).json({
+        message: "Geçersiz mesaj ID değeri.",
+      })
+    }
+
+    try {
+      const message = await prisma.contactMessage.update({
+        where: {
+          id: messageId,
+        },
+        data: {
+          read: true,
+        },
+      })
+
+      res.json(message)
+    } catch (error) {
+      if (error.code === "P2025") {
+        return res.status(404).json({
+          message: "Mesaj bulunamadı.",
+        })
+      }
+
+      console.error("Mesaj güncellenemedi:", error)
+
+      res.status(500).json({
+        message: "Mesaj güncellenemedi.",
+      })
+    }
+  },
+)
+
+app.delete(
+  "/api/admin/messages/:id",
+  authenticateAdmin,
+  async (req, res) => {
+    const messageId = Number(req.params.id)
+
+    if (!Number.isInteger(messageId) || messageId <= 0) {
+      return res.status(400).json({
+        message: "Geçersiz mesaj ID değeri.",
+      })
+    }
+
+    try {
+      await prisma.contactMessage.delete({
+        where: {
+          id: messageId,
+        },
+      })
+
+      res.json({
+        message: "Mesaj silindi.",
+      })
+    } catch (error) {
+      if (error.code === "P2025") {
+        return res.status(404).json({
+          message: "Mesaj bulunamadı.",
+        })
+      }
+
+      console.error("Mesaj silinemedi:", error)
+
+      res.status(500).json({
+        message: "Mesaj silinemedi.",
+      })
+    }
+  },
+)
 
 
 app.post('/api/contact' , async (req,res) =>{
