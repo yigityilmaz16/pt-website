@@ -3150,3 +3150,10 @@
     height: 28px;
   }
 }
+/* ADMIN PANEL */
+.admin-page {
+  min-height: 100vh;
+  padding: 120px 24px;
+  color: #fff;
+  background: #090909;
+}
