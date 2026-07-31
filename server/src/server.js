@@ -93,9 +93,12 @@ app.get('/api/health', (req, res) => {
 app.get("/api/testimonials", async (req, res) => {
   try {
     const testimonials = await prisma.testimonial.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
+     where: {
+    approved: true,
+  },
+  orderBy: {
+    createdAt: "desc",
+  },
     })
 
     res.json(testimonials)
