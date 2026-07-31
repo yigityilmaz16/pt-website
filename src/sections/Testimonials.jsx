@@ -6,6 +6,9 @@ function Testimonials(){
     const [duration,setDuration] = useState("");
     const [rating,setRating] = useState(0);
     const [comments,setComments] = useState([]);
+    const [formMessage,setFormMessage] = useState("");
+    const [formMessageType,setFormMessageType] = useState("");
+    const [isSubmitting,setIsSubmitting] = useState(false);
     
    useEffect(() => {
   async function getComments() {
@@ -21,6 +24,10 @@ function Testimonials(){
     
     async function handleSubmit(e){
         e.preventDefault();
+        setIsSubmitting(true)
+        setFormMessage("")
+        setFormMessageType("")
+
         try {
             const response = await fetch("http://localhost:5000/api/testimonials", {
                 method: "POST",
@@ -38,17 +45,24 @@ function Testimonials(){
             const data = await response.json()
 
             if (!response.ok) {
-                console.error(data.message)
+                setFormMessage(data.message || "Yorum gönderilemedi.")
+                setFormMessageType("error")
                 return
             }
 
             setComments((currentComments) => [...currentComments, data])
+            setFormMessage("Yorumunuz başarıyla eklendi.")
+            setFormMessageType("success")
             setName("")
             setComment("")
             setDuration("")
             setRating(0)
         } catch (error) {
             console.error("Yorum gönderilemedi:", error)
+            setFormMessage("Server bağlantısı kurulamadı. Lütfen tekrar deneyin.")
+            setFormMessageType("error")
+        } finally {
+            setIsSubmitting(false)
         }
      }
     return(
@@ -82,7 +96,17 @@ function Testimonials(){
                         ))}
                     </div>
                  </fieldset>
-                 <button type="submit">Mesajı İlet</button>
+                 <button type="submit" disabled={isSubmitting}>
+                    {isSubmitting ? "Gönderiliyor..." : "Mesajı İlet"}
+                 </button>
+                 {formMessage && (
+                    <p
+                        className={`testimonials-form-message testimonials-form-message--${formMessageType}`}
+                        role="status"
+                    >
+                        {formMessage}
+                    </p>
+                 )}
             </form>
 
             <div className="testimonials-grid">

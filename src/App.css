@@ -1941,6 +1941,27 @@
     transform 180ms ease;
 }
 
+.testimonials-submit button:disabled {
+  cursor: wait;
+  opacity: 0.68;
+  transform: none;
+}
+
+.testimonials-form-message {
+  margin: 2px 0 0;
+  grid-column: 1 / -1;
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.testimonials-form-message--error {
+  color: #ff625d;
+}
+
+.testimonials-form-message--success {
+  color: #58d68d;
+}
+
 .testimonials-rating-picker {
   position: relative;
   box-sizing: border-box;
