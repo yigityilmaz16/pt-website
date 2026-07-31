@@ -5,6 +5,7 @@ import prisma from "./lib/prisma.js"
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
+import programs from "./data/programs.js"
 
 const app = express()
 const port = process.env.PORT || 5000
@@ -14,6 +15,120 @@ const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
 
 app.use(cors({ origin: clientUrl }))
 app.use(express.json())
+
+
+app.get("/api/admin/orders", authenticateAdmin, async (req, res) => {
+  try {
+    const orders = await prisma.order.findMany({
+      include: {
+        assessment: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    res.json(orders)
+  } catch (error) {
+    console.error("Siparişler alınamadı:", error)
+
+    res.status(500).json({
+      message: "Siparişler alınamadı.",
+    })
+  }
+})
+
+
+app.post("/api/orders", async (req, res) => {
+  const {
+    customerName,
+    customerEmail,
+    customerPhone,
+    programSlug,
+    termsAccepted,
+    privacyNoticeAccepted,
+  } = req.body
+
+  if (
+    typeof customerName !== "string" ||
+    typeof customerEmail !== "string" ||
+    typeof customerPhone !== "string" ||
+    typeof programSlug !== "string" ||
+    termsAccepted !== true ||
+    privacyNoticeAccepted !== true
+  ) {
+    return res.status(400).json({
+      message: "Tüm alanlar ve onaylar zorunludur.",
+    })
+  }
+
+  const cleanName = customerName.trim()
+  const cleanEmail = customerEmail.trim().toLowerCase()
+  const cleanPhone = customerPhone.trim()
+  const phoneDigits = cleanPhone.replace(/\D/g, "")
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+  if (cleanName.length < 2 || cleanName.length > 80) {
+    return res.status(400).json({
+      message: "Ad soyad 2 ile 80 karakter arasında olmalıdır.",
+    })
+  }
+
+  if (cleanEmail.length > 254 || !emailPattern.test(cleanEmail)) {
+    return res.status(400).json({
+      message: "Geçerli bir e-posta adresi giriniz.",
+    })
+  }
+
+  if (phoneDigits.length < 10 || phoneDigits.length > 15) {
+    return res.status(400).json({
+      message: "Geçerli bir telefon numarası giriniz.",
+    })
+  }
+
+  const selectedProgram = programs.find(
+    (program) => program.slug === programSlug,
+  )
+
+  if (!selectedProgram) {
+    return res.status(404).json({
+      message: "Program bulunamadı.",
+    })
+  }
+
+  try {
+    const acceptedAt = new Date()
+
+    const order = await prisma.order.create({
+      data: {
+        customerName: cleanName,
+        customerEmail: cleanEmail,
+        customerPhone: cleanPhone,
+        programSlug: selectedProgram.slug,
+        programName: selectedProgram.name,
+        amount: selectedProgram.amount,
+        currency: selectedProgram.currency,
+        termsAcceptedAt: acceptedAt,
+        privacyNoticeAcceptedAt: acceptedAt,
+      },
+    })
+
+    res.status(201).json({
+      orderNumber: order.orderNumber,
+      status: order.status,
+      programName: order.programName,
+      amount: order.amount,
+      currency: order.currency,
+      createdAt: order.createdAt,
+    })
+  } catch (error) {
+    console.error("Sipariş oluşturulamadı:", error)
+
+    res.status(500).json({
+      message: "Sipariş oluşturulamadı.",
+    })
+  }
+})
 
 app.post("/api/admin/login", async (req, res) => {
   const { email, password } = req.body

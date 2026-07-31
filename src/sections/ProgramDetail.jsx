@@ -50,9 +50,12 @@ function ProgramDetail(){
                             ))}
                         </ul>
 
-                        <button className="program-detail__button" type="button">
-                            Satın Al
-                        </button>
+                        <Link
+  className="program-detail__button"
+  to={`/checkout/${program.slug}`}
+>
+  Satın Al
+</Link>
                     </div>
                 </div>
             </section>

@@ -39,3 +39,55 @@ model Admin {
   passwordHash String
   createdAt    DateTime @default(now())
 }
+
+enum OrderStatus {
+  PENDING
+  PAID
+  CANCELLED
+  FAILED
+}
+
+model Order {
+  id               Int         @id @default(autoincrement())
+  orderNumber      String      @unique @default(cuid())
+  customerName     String
+  customerEmail    String
+  customerPhone    String
+  programSlug      String
+  programName      String
+  amount           Int
+  currency         String      @default("TRY")
+  status           OrderStatus @default(PENDING)
+  paymentReference String?     @unique
+  assessmentToken  String?     @unique
+  paidAt           DateTime?
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+  termsAcceptedAt       DateTime
+  privacyNoticeAcceptedAt DateTime
+  assessment ClientAssessment?
+}
+
+model ClientAssessment {
+  id                    Int      @id @default(autoincrement())
+  orderId               Int      @unique
+  age                   Int
+  gender                String
+  heightCm              Int
+  weightKg              Float
+  targetWeightKg        Float?
+  goal                  String
+  trainingLevel         String
+  weeklyTrainingDays    Int
+  trainingLocation      String
+  dailyActivityLevel    String
+  dietaryPreferences    String?
+  injuriesOrConditions  String?
+  medications           String?
+  additionalNotes       String?
+  healthConsent         Boolean
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
