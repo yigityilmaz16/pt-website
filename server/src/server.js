@@ -13,7 +13,7 @@ app.use(cors({ origin: clientUrl }))
 app.use(express.json())
 
 
-app.post('/api/contact' , (req,res) =>{
+app.post('/api/contact' , async (req,res) =>{
   const { name, email, phone, subject, message } = req.body
 
   if (!name || !email || !phone || !subject || !message) {
@@ -72,17 +72,25 @@ app.post('/api/contact' , (req,res) =>{
     })
   }
 
-  const newMessage = {
-    id: Date.now(),
-    name: cleanName,
-    email: cleanEmail,
-    phone: cleanPhone,
-    subject: cleanSubject,
-    message: cleanMessage,
-  }
+  try {
+  const savedMessage = await prisma.contactMessage.create({
+    data: {
+      name: cleanName,
+      email: cleanEmail,
+      phone: cleanPhone,
+      subject: cleanSubject,
+      message: cleanMessage,
+    },
+  })
 
-  messages.push(newMessage)
-  res.status(201).json(newMessage)
+  res.status(201).json(savedMessage)
+} catch (error) {
+  console.error("Mesaj kaydedilemedi:", error)
+
+  res.status(500).json({
+    message: "Mesaj kaydedilemedi. Lütfen tekrar deneyin.",
+  })
+}
 
 })
 
