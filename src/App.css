@@ -1882,11 +1882,16 @@
 
 /* Testimonials form */
 .testimonials-submit {
-  width: min(100%, 940px);
+  width: min(100%, 1180px);
   margin: 0 auto clamp(48px, 6vw, 76px);
   padding: clamp(18px, 2.4vw, 28px);
   display: grid;
-  grid-template-columns: 1fr 1.6fr 1fr auto;
+  grid-template-columns:
+    minmax(130px, 0.8fr)
+    minmax(190px, 1.25fr)
+    minmax(150px, 0.85fr)
+    auto
+    auto;
   gap: 12px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
@@ -1923,6 +1928,7 @@
 }
 
 .testimonials-submit button {
+  grid-column: 5;
   padding: 0 26px;
   border: 1px solid #e10600;
   color: #fff;
@@ -1933,6 +1939,71 @@
     background-color 180ms ease,
     border-color 180ms ease,
     transform 180ms ease;
+}
+
+.testimonials-rating-picker {
+  position: relative;
+  box-sizing: border-box;
+  min-width: 0;
+  height: 54px;
+  margin: 0;
+  padding: 0 14px;
+  grid-column: 4;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 6px;
+  background: #111;
+}
+
+.testimonials-rating-picker legend {
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  padding: 0 4px;
+  color: rgba(255, 255, 255, 0.58);
+  background: #111;
+  font-size: 0.76rem;
+}
+
+.testimonials-rating-picker > div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.testimonials-rating-picker label {
+  position: relative;
+  color: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+}
+
+.testimonials-rating-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.testimonials-rating-picker label span {
+  display: block;
+  font-size: 1.45rem;
+  line-height: 1;
+  transition:
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.testimonials-rating-picker label.is-active {
+  color: #ff3b35;
+}
+
+.testimonials-rating-picker label:has(input:focus-visible) span {
+  border-radius: 2px;
+  outline: 2px solid #fff;
+  outline-offset: 3px;
 }
 
 /* Testimonial cards */
@@ -2026,7 +2097,12 @@
   }
 
   .testimonials-submit button {
+    grid-column: 2;
     width: 100%;
+  }
+
+  .testimonials-rating-picker {
+    grid-column: 1;
   }
 }
 
@@ -2043,6 +2119,11 @@
   .testimonials-submit {
     margin-bottom: 42px;
     padding: 16px;
+  }
+
+  .testimonials-submit button,
+  .testimonials-rating-picker {
+    grid-column: 1;
   }
 
   .testimonial-card {
@@ -2072,6 +2153,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .testimonials-field,
+  .testimonials-rating-picker label span,
   .testimonials-submit button {
     transition: none;
   }

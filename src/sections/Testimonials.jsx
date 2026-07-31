@@ -1,30 +1,56 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Testimonials(){
     const [name,setName] =useState("");
     const [comment,setComment] = useState("");
     const [duration,setDuration] = useState("");
-    const comments=[
-        {
-            id:1,
-            name:"Eda Şahin",
-            comment:"3 aydır kendisiyle birlikte çalışıyorum, programını uygulayıp 8 kilo verdim, her konuda profesyonel ve her türlü sorumu anında cevaplıyor. İlgisi ve alakası için teşekkür ederim.",
-            duration:"3",
-            rating:"5"
-        },
-        {
-            id:2,
-            name:"Mehmet Şahin",
-            comment:"1 ay sonunda 5 kilo verdim ve inanılmaz memnun kaldım, teşekkürler hocam.",
-            duration:"1",
-            rating:"5"
-        }
-        
-    ];
-     function handleSubmit(e){
+    const [rating,setRating] = useState(0);
+    const [comments,setComments] = useState([]);
+    
+   useEffect(() => {
+  async function getComments() {
+    const response = await fetch(
+      "http://localhost:5000/api/testimonials"
+    )
+    const data = await response.json()
+    setComments(data)
+  }
+
+  getComments()
+}, [])
+    
+    async function handleSubmit(e){
         e.preventDefault();
-        console.log("Selam");
-    }
+        try {
+            const response = await fetch("http://localhost:5000/api/testimonials", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    comment,
+                    duration,
+                    rating,
+                }),
+            })
+
+            const data = await response.json()
+
+            if (!response.ok) {
+                console.error(data.message)
+                return
+            }
+
+            setComments((currentComments) => [...currentComments, data])
+            setName("")
+            setComment("")
+            setDuration("")
+            setRating(0)
+        } catch (error) {
+            console.error("Yorum gönderilemedi:", error)
+        }
+     }
     return(
         <section id="testimonials" className="testimonials">
             <div className="testimonials-header">
@@ -34,6 +60,28 @@ function Testimonials(){
                  <input className="testimonials-field" type="text" placeholder="İsim" required value={name} onChange={(e)=>setName(e.target.value)}></input>
                  <input className="testimonials-field" type="text" placeholder="Mesajınız" required value={comment} onChange={(e)=>setComment(e.target.value)}></input>
                  <input className="testimonials-field" type="number" placeholder="Kaç Ay Çalıştınız?" required value={duration} onChange={(e)=>setDuration(e.target.value)}></input>
+                 <fieldset className="testimonials-rating-picker">
+                    <legend>Puanınız</legend>
+                    <div>
+                        {[1, 2, 3, 4, 5].map((value) => (
+                            <label
+                                key={value}
+                                className={value <= rating ? "is-active" : ""}
+                                aria-label={`${value} yıldız`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="rating"
+                                    value={value}
+                                    checked={rating === value}
+                                    onChange={() => setRating(value)}
+                                    required
+                                />
+                                <span aria-hidden="true">★</span>
+                            </label>
+                        ))}
+                    </div>
+                 </fieldset>
                  <button type="submit">Mesajı İlet</button>
             </form>
 
