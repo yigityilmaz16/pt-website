@@ -49,8 +49,7 @@ function Testimonials(){
                 return
             }
 
-            setComments((currentComments) => [...currentComments, data])
-            setFormMessage("Yorumunuz başarıyla eklendi.")
+            setFormMessage("Yorumunuz alındı. Onaylandıktan sonra yayınlanacaktır.")
             setFormMessageType("success")
             setName("")
             setComment("")
