@@ -7,6 +7,12 @@ import ScrollToTop from './components/ScrollToTop'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import Checkout from "./pages/Checkout"
 import Assessment from "./pages/Assessment"
+import {
+  PrivacyPolicy,
+  KvkkNotice,
+  DistanceSalesAgreement,
+  CancellationRefundPolicy,
+} from "./pages/LegalDocuments"
 
 function App(){
   const location = useLocation()
@@ -20,6 +26,13 @@ const isAdminRoute = location.pathname.startsWith("/admin")
         <Route path="/admin" element={<Admin />} />
         <Route path="/checkout/:slug" element={<Checkout />} />
         <Route path="/assessment/:token" element={<Assessment />} />
+        <Route path="/gizlilik-politikasi" element={<PrivacyPolicy />} />
+        <Route path="/kvkk-aydinlatma" element={<KvkkNotice />} />
+        <Route
+          path="/mesafeli-satis-sozlesmesi"
+          element={<DistanceSalesAgreement />}
+        />
+        <Route path="/iptal-iade" element={<CancellationRefundPolicy />} />
       </Routes>
     {!isAdminRoute && <FloatingWhatsApp />}
     </>

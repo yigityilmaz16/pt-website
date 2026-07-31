@@ -1,10 +1,14 @@
 import { useState } from "react"
+import LegalModal from "./LegalModal"
 import getApiUrl from "../../config/api"
 
 function CheckoutForm({ program }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formMessage, setFormMessage] = useState("")
   const [order, setOrder] = useState(null)
+  const [activeLegalDocument, setActiveLegalDocument] = useState(null)
+  const [termsRead, setTermsRead] = useState(false)
+  const [privacyRead, setPrivacyRead] = useState(false)
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -105,25 +109,49 @@ function CheckoutForm({ program }) {
         />
       </div>
 
-      <label className="checkout-form__check">
-        <input name="termsAccepted" type="checkbox" required />
-        <span>
-          Ön bilgilendirme ve mesafeli satış koşullarını kabul
-          ediyorum.
-        </span>
-      </label>
+     <div className="checkout-form__check">
+  <input
+    name="termsAccepted"
+    type="checkbox"
+    aria-label="Satış ve iade koşullarını kabul ediyorum"
+    disabled={!termsRead}
+    required
+  />
 
-      <label className="checkout-form__check">
-        <input
-          name="privacyNoticeAccepted"
-          type="checkbox"
-          required
-        />
-        <span>
-          Kişisel verilerimin işlenmesine ilişkin bilgilendirmeyi
-          okudum.
-        </span>
-      </label>
+  <span>
+    <button
+      className="checkout-form__legal-trigger"
+      type="button"
+      onClick={() => setActiveLegalDocument("terms")}
+    >
+      Mesafeli Satış ve İade Koşulları
+    </button>
+    'nı okudum ve kabul ediyorum.
+    {termsRead && <small> Okundu ✓</small>}
+  </span>
+</div>
+
+     <div className="checkout-form__check">
+  <input
+    name="privacyNoticeAccepted"
+    type="checkbox"
+    aria-label="KVKK ve gizlilik bilgilendirmesini kabul ediyorum"
+    disabled={!privacyRead}
+    required
+  />
+
+  <span>
+    <button
+      className="checkout-form__legal-trigger"
+      type="button"
+      onClick={() => setActiveLegalDocument("privacy")}
+    >
+      KVKK ve Gizlilik Bilgilendirmesi
+    </button>
+    'ni okudum.
+    {privacyRead && <small> Okundu ✓</small>}
+  </span>
+</div>
 
       <button type="submit" disabled={isSubmitting}>
         {isSubmitting
@@ -136,6 +164,103 @@ function CheckoutForm({ program }) {
       )}
 
       <small>Kart bilgilerin FITCOACH tarafından saklanmaz.</small>
+      {activeLegalDocument === "terms" && (
+  <LegalModal
+    title="Mesafeli Satış ve İade Koşulları"
+    onClose={() => setActiveLegalDocument(null)}
+    onAccept={() => setTermsRead(true)}
+  >
+    <h3>Taraflar</h3>
+    <p>
+      Bu bölümde hizmet sağlayıcı ile online koçluk hizmetini satın
+      alan kullanıcı arasındaki koşullar açıklanacaktır.
+    </p>
+
+    <h3>Hizmetin Konusu</h3>
+    <p>
+      Satın alınan paket; seçilen süre boyunca online koçluk,
+      antrenman planlaması, beslenme yönlendirmesi ve takip
+      hizmetlerini kapsar.
+    </p>
+
+    <h3>Ücret ve Ödeme</h3>
+    <p>
+      Paket ücreti ödeme ekranında gösterilir. Gerçek ödeme,
+      iyzico entegrasyonu tamamlandıktan sonra güvenli ödeme
+      altyapısı üzerinden alınacaktır.
+    </p>
+
+    <h3>Hizmetin Başlangıcı</h3>
+    <p>
+      Hizmetin başlangıç zamanı ve program teslim süresi site
+      sahibi tarafından doğrulanarak nihai metne eklenecektir.
+    </p>
+
+    <h3>İptal ve İade</h3>
+    <p>
+      Hizmet başlamadan ve başladıktan sonra uygulanacak iptal
+      ve iade şartları site sahibi tarafından belirlenecektir.
+    </p>
+
+    <h3>Taslak Uyarısı</h3>
+    <p>
+      Bu metin gerçek satıcı ve hizmet bilgileri eklenmeden
+      yayına alınmamalıdır.
+    </p>
+  </LegalModal>
+)}
+{activeLegalDocument === "privacy" && (
+  <LegalModal
+    title="KVKK ve Gizlilik Bilgilendirmesi"
+    onClose={() => setActiveLegalDocument(null)}
+    onAccept={() => setPrivacyRead(true)}
+  >
+    <h3>Veri Sorumlusu</h3>
+    <p>
+      Veri sorumlusunun ad-soyad veya şirket unvanı ve iletişim
+      bilgileri, site sahibi tarafından nihai metne eklenecektir.
+    </p>
+
+    <h3>Toplanan Bilgiler</h3>
+    <p>
+      Sipariş sırasında ad-soyad, e-posta, telefon, seçilen paket
+      ve ödeme sürecine ilişkin bilgiler işlenebilir.
+    </p>
+
+    <h3>Koçluk Bilgileri</h3>
+    <p>
+      Ödeme sonrasında kullanıcının kendi isteğiyle paylaştığı yaş,
+      boy, kilo, hedef, antrenman geçmişi ve sağlık notları kişiye
+      özel program hazırlanması amacıyla kullanılabilir.
+    </p>
+
+    <h3>Kullanım Amaçları</h3>
+    <p>
+      Bilgiler siparişin yürütülmesi, kullanıcıyla iletişim
+      kurulması, kişiye özel plan hazırlanması ve hizmetin takip
+      edilmesi amaçlarıyla işlenebilir.
+    </p>
+
+    <h3>Saklama ve Güvenlik</h3>
+    <p>
+      Saklama süreleri, erişim yetkileri ve silme süreçleri site
+      sahibinin gerçek çalışma biçimine göre nihai metinde
+      açıklanacaktır.
+    </p>
+
+    <h3>Başvuru ve İletişim</h3>
+    <p>
+      Kullanıcının kişisel verileriyle ilgili başvuru yapabileceği
+      iletişim adresi site sahibi tarafından eklenecektir.
+    </p>
+
+    <h3>Taslak Uyarısı</h3>
+    <p>
+      Bu metin gerçek veri sorumlusu ve saklama bilgileri
+      eklenmeden yayına alınmamalıdır.
+    </p>
+  </LegalModal>
+)}
     </form>
   )
 }
