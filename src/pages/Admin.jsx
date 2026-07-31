@@ -2,6 +2,7 @@ import { useState } from "react"
 import getApiUrl from "../config/api"
 import AdminMessages from "../components/admin/AdminMessages"
 import AdminTestimonials from "../components/admin/AdminTestimonials"
+import AdminOrders from "../components/admin/AdminOrder"
 
 
 function Admin() {
@@ -72,7 +73,7 @@ if (token) {
             Çıkış Yap
           </button>
         </header>
-
+        <AdminOrders token={token} onUnauthorized={handleLogout} />
         <div className="admin-dashboard__grid">
           <AdminMessages token={token} onUnauthorized={handleLogout} />
           <AdminTestimonials token={token} onUnauthorized={handleLogout} />
