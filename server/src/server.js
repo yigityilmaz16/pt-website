@@ -1,3 +1,4 @@
+import prisma from "./lib/prisma.js"
 import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
@@ -5,23 +6,7 @@ import express from 'express'
 const app = express()
 const port = process.env.PORT || 5000
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
- const comments=[
-        {
-            id:1,
-            name:"Eda Şahin",
-            comment:"3 aydır kendisiyle birlikte çalışıyorum, programını uygulayıp 8 kilo verdim, her konuda profesyonel ve her türlü sorumu anında cevaplıyor. İlgisi ve alakası için teşekkür ederim.",
-            duration:"3",
-            rating:"5"
-        },
-        {
-            id:2,
-            name:"Mehmet Şahin",
-            comment:"1 ay sonunda 5 kilo verdim ve inanılmaz memnun kaldım, teşekkürler hocam.",
-            duration:"1",
-            rating:"5"
-        }
-        
-    ];
+
   const messages= []
 
 app.use(cors({ origin: clientUrl }))
@@ -105,10 +90,24 @@ app.get('/api/health', (req, res) => {
   res.json({ message: 'FITCOACH API çalışıyor.' })
 })
 
-app.get('/api/testimonials', (req,res) =>{
-    res.json(comments);
+app.get("/api/testimonials", async (req, res) => {
+  try {
+    const testimonials = await prisma.testimonial.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    })
+
+    res.json(testimonials)
+  } catch (error) {
+    console.error("Yorumlar alınamadı:", error)
+
+    res.status(500).json({
+      message: "Yorumlar alınamadı.",
+    })
+  }
 })
-app.post('/api/testimonials',(req,res) =>{
+app.post('/api/testimonials', async (req,res) =>{
   const { name, comment, duration, rating } = req.body
   if (!name || !comment || !duration || !rating) {
   return res.status(400).json({
@@ -150,15 +149,24 @@ if (
     message: "Puan 1 ile 5 arasında bir tam sayı olmalıdır.",
   })
 }
- const newComment = {
-  id: Date.now(),
-  name: name.trim(),
-  comment: comment.trim(),
-  duration: durationNumber,
-  rating: ratingNumber,
- }
-  comments.push(newComment);
-  res.status(201).json(newComment);
+ try {
+  const newComment = await prisma.testimonial.create({
+    data: {
+      name: name.trim(),
+      comment: comment.trim(),
+      duration: durationNumber,
+      rating: ratingNumber,
+    },
+  })
+
+  res.status(201).json(newComment)
+} catch (error) {
+  console.error("Yorum kaydedilemedi:", error)
+
+  res.status(500).json({
+    message: "Yorum kaydedilemedi.",
+  })
+}
 })
 
 app.listen(port, () => {
