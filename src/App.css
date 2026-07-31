@@ -836,6 +836,13 @@
   background: #ff1a13;
 }
 
+.checkout-form > button:disabled {
+  transform: none;
+  border-color: rgba(225, 6, 0, 0.45);
+  background: rgba(225, 6, 0, 0.48);
+  cursor: not-allowed;
+}
+
 .checkout-form > small {
   color: rgba(255, 255, 255, 0.4);
   font-size: 0.7rem;

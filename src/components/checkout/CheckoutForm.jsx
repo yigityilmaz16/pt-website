@@ -153,7 +153,10 @@ function CheckoutForm({ program }) {
   </span>
 </div>
 
-      <button type="submit" disabled={isSubmitting}>
+      <button
+        type="submit"
+        disabled={isSubmitting || !termsRead || !privacyRead}
+      >
         {isSubmitting
           ? "Sipariş Hazırlanıyor..."
           : `${program.price} — Ödemeye Devam Et`}
