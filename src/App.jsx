@@ -6,6 +6,7 @@ import ProgramDetail from './sections/ProgramDetail.jsx'
 import ScrollToTop from './components/ScrollToTop'
 import FloatingWhatsApp from './components/FloatingWhatsApp'
 import Checkout from "./pages/Checkout"
+import Assessment from "./pages/Assessment"
 
 function App(){
   const location = useLocation()
@@ -18,6 +19,7 @@ const isAdminRoute = location.pathname.startsWith("/admin")
         <Route path="/services/:slug" element={<ProgramDetail />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/checkout/:slug" element={<Checkout />} />
+        <Route path="/assessment/:token" element={<Assessment />} />
       </Routes>
     {!isAdminRoute && <FloatingWhatsApp />}
     </>

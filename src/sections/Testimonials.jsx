@@ -13,9 +13,19 @@ function Testimonials(){
     
    useEffect(() => {
   async function getComments() {
-    const response = await fetch(getApiUrl("/api/testimonials"))
-    const data = await response.json()
-    setComments(data)
+    try {
+      const response = await fetch(getApiUrl("/api/testimonials"))
+      const data = await response.json()
+
+      if (!response.ok || !Array.isArray(data)) {
+        throw new Error(data.message || "Yorumlar alınamadı.")
+      }
+
+      setComments(data)
+    } catch (error) {
+      console.error("Yorumlar alınamadı:", error)
+      setComments([])
+    }
   }
 
   getComments()

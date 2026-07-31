@@ -17,6 +17,192 @@ app.use(cors({ origin: clientUrl }))
 app.use(express.json())
 
 
+app.get("/api/assessments/:token", async (req, res) => {
+  const { token } = req.params
+
+  if (typeof token !== "string" || token.length < 32) {
+    return res.status(400).json({
+      message: "Geçersiz değerlendirme bağlantısı.",
+    })
+  }
+
+  try {
+    const order = await prisma.order.findFirst({
+      where: {
+        assessmentToken: token,
+        status: "PAID",
+      },
+      include: {
+        assessment: true,
+      },
+    })
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Değerlendirme bağlantısı bulunamadı.",
+      })
+    }
+
+    res.json({
+      orderNumber: order.orderNumber,
+      programName: order.programName,
+      customerName: order.customerName,
+      completed: Boolean(order.assessment),
+    })
+  } catch (error) {
+    console.error("Değerlendirme bağlantısı doğrulanamadı:", error)
+
+    res.status(500).json({
+      message: "Değerlendirme bağlantısı doğrulanamadı.",
+    })
+  }
+})
+
+app.post("/api/assessments/:token", async (req, res) => {
+  const { token } = req.params
+
+  if (typeof token !== "string" || token.length < 32) {
+    return res.status(400).json({
+      message: "Geçersiz değerlendirme bağlantısı.",
+    })
+  }
+
+  try {
+    const order = await prisma.order.findFirst({
+      where: {
+        assessmentToken: token,
+        status: "PAID",
+      },
+      include: {
+        assessment: true,
+      },
+    })
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Değerlendirme bağlantısı bulunamadı.",
+      })
+    }
+
+    if (order.assessment) {
+      return res.status(409).json({
+        message: "Bu değerlendirme formu daha önce gönderilmiş.",
+      })
+    }
+    const {
+  age,
+  gender,
+  heightCm,
+  weightKg,
+  goal,
+  trainingLevel,
+  weeklyTrainingDays,
+  trainingLocation,
+  dailyActivityLevel,
+  dietaryPreferences,
+  injuriesOrConditions,
+  medications,
+  additionalNotes,
+  healthConsent,
+} = req.body
+
+const parsedAge = Number(age)
+const parsedHeight = Number(heightCm)
+const parsedWeight = Number(weightKg)
+const parsedTrainingDays = Number(weeklyTrainingDays)
+
+const allowedGenders = ["female", "male", "unspecified"]
+const allowedGoals = [
+  "weight-loss",
+  "muscle-gain",
+  "conditioning",
+  "healthy-lifestyle",
+]
+const allowedTrainingLevels = ["beginner", "intermediate", "advanced"]
+const allowedTrainingLocations = ["gym", "home", "both"]
+const allowedActivityLevels = ["low", "moderate", "high"]
+
+if (
+  !Number.isInteger(parsedAge) ||
+  parsedAge < 16 ||
+  parsedAge > 100 ||
+  !allowedGenders.includes(gender) ||
+  !Number.isInteger(parsedHeight) ||
+  parsedHeight < 120 ||
+  parsedHeight > 230 ||
+  !Number.isFinite(parsedWeight) ||
+  parsedWeight < 35 ||
+  parsedWeight > 300 ||
+  !allowedGoals.includes(goal) ||
+  !allowedTrainingLevels.includes(trainingLevel) ||
+  !Number.isInteger(parsedTrainingDays) ||
+  parsedTrainingDays < 1 ||
+  parsedTrainingDays > 7 ||
+  !allowedTrainingLocations.includes(trainingLocation) ||
+  !allowedActivityLevels.includes(dailyActivityLevel) ||
+  healthConsent !== true
+) {
+  return res.status(400).json({
+    message: "Lütfen zorunlu alanları geçerli bilgilerle doldurun.",
+  })
+}
+
+   const optionalFields = {
+  dietaryPreferences,
+  injuriesOrConditions,
+  medications,
+  additionalNotes,
+}
+
+const invalidOptionalField = Object.values(optionalFields).some(
+  (value) => value !== undefined && typeof value !== "string",
+)
+
+if (
+  invalidOptionalField ||
+  dietaryPreferences?.length > 600 ||
+  injuriesOrConditions?.length > 600 ||
+  medications?.length > 400 ||
+  additionalNotes?.length > 1000
+) {
+  return res.status(400).json({
+    message: "Açıklama alanlarından biri geçerli değil veya çok uzun.",
+  })
+}
+
+await prisma.clientAssessment.create({
+  data: {
+    orderId: order.id,
+    age: parsedAge,
+    gender,
+    heightCm: parsedHeight,
+    weightKg: parsedWeight,
+    goal,
+    trainingLevel,
+    weeklyTrainingDays: parsedTrainingDays,
+    trainingLocation,
+    dailyActivityLevel,
+    dietaryPreferences: dietaryPreferences?.trim() || null,
+    injuriesOrConditions: injuriesOrConditions?.trim() || null,
+    medications: medications?.trim() || null,
+    additionalNotes: additionalNotes?.trim() || null,
+    healthConsent: true,
+  },
+})
+
+res.status(201).json({
+  message: "Değerlendirme formunuz başarıyla kaydedildi.",
+})
+  } catch (error) {
+    console.error("Değerlendirme formu işlenemedi:", error)
+
+    res.status(500).json({
+      message: "Değerlendirme formu işlenemedi.",
+    })
+  }
+})
+
+
 app.get("/api/admin/orders", authenticateAdmin, async (req, res) => {
   try {
     const orders = await prisma.order.findMany({
