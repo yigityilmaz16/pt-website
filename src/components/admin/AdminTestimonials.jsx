@@ -125,43 +125,52 @@ async function handleDelete(testimonialId) {
 }
 
   if (isLoading) {
-    return <p>Yorumlar yükleniyor...</p>
+    return <p className="admin-state">Yorumlar yükleniyor...</p>
   }
 
   if (errorMessage) {
-    return <p>{errorMessage}</p>
+    return <p className="admin-state admin-state--error">{errorMessage}</p>
   }
 
   return (
-    <section>
-      <h2>Danışan Yorumları</h2>
+    <section className="admin-section">
+      <header className="admin-section__header">
+        <div>
+          <span>TOPLULUK</span>
+          <h2>Danışan Yorumları</h2>
+        </div>
+        <strong>{testimonials.length}</strong>
+      </header>
 
       {testimonials.length === 0 ? (
-        <p>Henüz yorum bulunmuyor.</p>
+        <p className="admin-empty">Henüz yorum bulunmuyor.</p>
       ) : (
-        testimonials.map((testimonial) => (
-          <article key={testimonial.id}>
-            <h3>{testimonial.name}</h3>
-            <p>{testimonial.comment}</p>
-            <p>{testimonial.duration} ay çalıştı</p>
-            <p>{testimonial.rating} / 5 yıldız</p>
-            <p>{testimonial.approved ? "Yayında" : "Onay bekliyor"}</p>
-            {!testimonial.approved && (
-  <button
-    type="button"
-    onClick={() => handleApprove(testimonial.id)}
-  >
-    Yorumu Onayla
-  </button>
-)}
-<button
-  type="button"
-  onClick={() => handleDelete(testimonial.id)}
->
-  {testimonial.approved ? "Yorumu Sil" : "Yorumu Reddet"}
-</button>
-          </article>
-        ))
+        <div className="admin-list">
+          {testimonials.map((testimonial) => (
+            <article className="admin-card" key={testimonial.id}>
+              <div className="admin-card__topline">
+                <span className={`admin-status ${testimonial.approved ? "admin-status--live" : ""}`}>
+                  {testimonial.approved ? "Yayında" : "Onay bekliyor"}
+                </span>
+                <span className="admin-rating">{"★".repeat(testimonial.rating)}</span>
+              </div>
+              <h3>{testimonial.name}</h3>
+              <p className="admin-card__body">{testimonial.comment}</p>
+              <p className="admin-card__meta">{testimonial.duration} ay birlikte çalışıldı</p>
+
+              <div className="admin-card__actions">
+                {!testimonial.approved && (
+                  <button type="button" onClick={() => handleApprove(testimonial.id)}>
+                    Yorumu Onayla
+                  </button>
+                )}
+                <button className="admin-button--danger" type="button" onClick={() => handleDelete(testimonial.id)}>
+                  {testimonial.approved ? "Yorumu Sil" : "Yorumu Reddet"}
+                </button>
+              </div>
+            </article>
+          ))}
+        </div>
       )}
     </section>
   )

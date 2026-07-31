@@ -58,26 +58,39 @@ function handleLogout() {
 
 if (token) {
   return (
-    <main className="admin-page">
-      <h1>Admin Paneli</h1>
-      <p>Giriş başarılı.</p>
-      <AdminMessages token={token} onUnauthorized={handleLogout} />
-      <AdminTestimonials token={token} onUnauthorized={handleLogout} />
-      <button type="button" onClick={handleLogout}>
-        Çıkış Yap
-      </button>
+    <main className="admin-page admin-dashboard">
+      <div className="admin-shell">
+        <header className="admin-dashboard__header">
+          <div>
+            <span className="admin-brand">FITCOACH<span>.</span></span>
+            <p className="admin-dashboard__eyebrow">YÖNETİM MERKEZİ</p>
+            <h1>Admin Paneli</h1>
+            <p>Mesajları ve danışan yorumlarını tek yerden yönet.</p>
+          </div>
+
+          <button className="admin-logout" type="button" onClick={handleLogout}>
+            Çıkış Yap
+          </button>
+        </header>
+
+        <div className="admin-dashboard__grid">
+          <AdminMessages token={token} onUnauthorized={handleLogout} />
+          <AdminTestimonials token={token} onUnauthorized={handleLogout} />
+        </div>
+      </div>
     </main>
   )
 }
 
   return (
-    <main className="admin-page">
+    <main className="admin-page admin-page--login">
       <section className="admin-login">
-        <span className="admin-login__eyebrow">FITCOACH</span>
+        <span className="admin-brand">FITCOACH<span>.</span></span>
+        <span className="admin-login__eyebrow">GÜVENLİ YÖNETİM ALANI</span>
         <h1>Admin Girişi</h1>
         <p>Yönetim paneline erişmek için bilgilerini gir.</p>
 
-        <form onSubmit={handleSubmit}>
+        <form className="admin-login__form" onSubmit={handleSubmit}>
           <label htmlFor="admin-email">E-posta</label>
           <input
             id="admin-email"
@@ -96,9 +109,9 @@ if (token) {
             required
           />
 
-         <button type="submit" disabled={isSubmitting}>
-  {isSubmitting ? "Giriş Yapılıyor..." : "Giriş Yap"}
-</button>
+          <button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Giriş Yapılıyor..." : "Giriş Yap"}
+          </button>
         </form>
         {formMessage && <p className="admin-login__message">{formMessage}</p>}
       </section>
