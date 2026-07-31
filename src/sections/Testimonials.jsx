@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import getApiUrl from "../config/api";
 
 function Testimonials(){
     const [name,setName] =useState("");
@@ -12,9 +13,7 @@ function Testimonials(){
     
    useEffect(() => {
   async function getComments() {
-    const response = await fetch(
-      "http://localhost:5000/api/testimonials"
-    )
+    const response = await fetch(getApiUrl("/api/testimonials"))
     const data = await response.json()
     setComments(data)
   }
@@ -29,7 +28,7 @@ function Testimonials(){
         setFormMessageType("")
 
         try {
-            const response = await fetch("http://localhost:5000/api/testimonials", {
+            const response = await fetch(getApiUrl("/api/testimonials"), {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
