@@ -50,12 +50,12 @@ function ProgramDetail(){
                             ))}
                         </ul>
 
-                        <Link
-  className="program-detail__button"
-  to={`/checkout/${program.slug}`}
->
-  Satın Al
-</Link>
+                        <span
+                            className="program-detail__button program-detail__button--disabled"
+                            aria-disabled="true"
+                        >
+                            Yakında
+                        </span>
                     </div>
                 </div>
             </section>

@@ -3526,6 +3526,22 @@
   transition: color 180ms ease;
 }
 
+.footer-legal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+.footer-legal a {
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 0.7rem;
+  font-weight: 650;
+  text-decoration: none;
+  transition: color 180ms ease;
+}
+
 .footer-signature {
   display: inline-flex;
   align-items: center;
@@ -3605,6 +3621,7 @@
 /* Footer interactions */
 @media (hover: hover) and (pointer: fine) {
   .footer-between a:hover,
+  .footer-legal a:hover,
   .footer-signature:hover {
     color: #ff3b35;
   }
@@ -3868,6 +3885,13 @@
     transform 180ms ease;
 }
 
+.program-detail__button--disabled {
+  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.06);
+  cursor: not-allowed;
+}
+
 .program-detail__visual {
   position: relative;
   grid-column: 2;
@@ -3909,7 +3933,7 @@
     color: #fff;
   }
 
-  .program-detail__button:hover,
+  .program-detail__button:not(.program-detail__button--disabled):hover,
   .program-detail--not-found > a:hover {
     border-color: #ff2019;
     background: #ff2019;
