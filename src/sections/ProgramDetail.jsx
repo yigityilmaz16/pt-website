@@ -50,12 +50,22 @@ function ProgramDetail(){
                             ))}
                         </ul>
 
-                        <span
-                            className="program-detail__button program-detail__button--disabled"
-                            aria-disabled="true"
+                        <div className="program-detail__payment-status" role="status">
+                            <strong>Online ödeme yakında aktif olacak</strong>
+                            <p>
+                                Ödeme altyapımız onay sürecindedir. Paket başvurusu ve
+                                detaylı bilgi için bizimle iletişime geçebilirsiniz.
+                            </p>
+                        </div>
+
+                        <a
+                            className="program-detail__button"
+                            href="https://wa.me/905300954266"
+                            target="_blank"
+                            rel="noreferrer"
                         >
-                            Yakında
-                        </span>
+                            WhatsApp'tan Bilgi Al
+                        </a>
                     </div>
                 </div>
             </section>

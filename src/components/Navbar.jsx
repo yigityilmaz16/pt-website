@@ -3,7 +3,6 @@ import { useState } from 'react'
 const navigationItems = [
   { label: 'Hakkımda', href: '#about' },
   { label: 'Online Koçluk Paketleri', href: '#services' },
-  { label: 'Dönüşümler', href: '#transformations' },
   { label: 'Yorumlar', href: '#testimonials' },
   { label: 'İletişim', href: '#contact' },
 ]
