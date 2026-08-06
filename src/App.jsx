@@ -1,5 +1,5 @@
 import './App.css'
-import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Admin from "./pages/Admin"
 import Home from './pages/Home'
 import ProgramDetail from './sections/ProgramDetail.jsx'
@@ -16,6 +16,7 @@ import {
   PaymentSuccess,
   PaymentFailure,
 } from "./pages/PaymentResult"
+import Checkout from "./pages/Checkout"
 
 function App(){
   const location = useLocation()
@@ -27,7 +28,7 @@ const isAdminRoute = location.pathname.startsWith("/admin")
         <Route path="/" element={<Home />} />
         <Route path="/services/:slug" element={<ProgramDetail />} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/checkout/:slug" element={<Navigate to="/" replace />} />
+        <Route path="/checkout/:slug"  element={<Checkout />} />
         <Route path="/assessment/:token" element={<Assessment />} />
         <Route path="/payment/success" element={<PaymentSuccess />} />
         <Route path="/payment/failure" element={<PaymentFailure />} />

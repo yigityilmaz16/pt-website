@@ -50,22 +50,12 @@ function ProgramDetail(){
                             ))}
                         </ul>
 
-                        <div className="program-detail__payment-status" role="status">
-                            <strong>Online ödeme yakında aktif olacak</strong>
-                            <p>
-                                Ödeme altyapımız onay sürecindedir. Paket başvurusu ve
-                                detaylı bilgi için bizimle iletişime geçebilirsiniz.
-                            </p>
-                        </div>
-
-                        <a
+                      <Link
                             className="program-detail__button"
-                            href="https://wa.me/905300954266"
-                            target="_blank"
-                            rel="noreferrer"
-                        >
-                            WhatsApp'tan Bilgi Al
-                        </a>
+                            to={`/checkout/${program.slug}`}
+         >
+                         Satın Al
+                        </Link>
                     </div>
                 </div>
             </section>
