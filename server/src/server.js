@@ -8,6 +8,7 @@ import express from 'express'
 import programs from "./data/programs.js"
 
 const app = express()
+app.set("trust proxy", 1)
 const port = process.env.PORT || 5000
 const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
 
@@ -230,6 +231,7 @@ app.post("/api/orders", async (req, res) => {
     customerName,
     customerEmail,
     customerPhone,
+    customerAddress,
     programSlug,
     termsAccepted,
     privacyNoticeAccepted,
@@ -239,6 +241,7 @@ app.post("/api/orders", async (req, res) => {
     typeof customerName !== "string" ||
     typeof customerEmail !== "string" ||
     typeof customerPhone !== "string" ||
+    typeof customerAddress !== "string" ||
     typeof programSlug !== "string" ||
     termsAccepted !== true ||
     privacyNoticeAccepted !== true
@@ -251,6 +254,7 @@ app.post("/api/orders", async (req, res) => {
   const cleanName = customerName.trim()
   const cleanEmail = customerEmail.trim().toLowerCase()
   const cleanPhone = customerPhone.trim()
+  const cleanAddress = customerAddress.trim()
   const phoneDigits = cleanPhone.replace(/\D/g, "")
   const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -271,6 +275,14 @@ app.post("/api/orders", async (req, res) => {
       message: "Geçerli bir telefon numarası giriniz.",
     })
   }
+  if (
+  cleanAddress.length < 10 ||
+  cleanAddress.length > 400
+) {
+  return res.status(400).json({
+    message: "Adres 10 ile 400 karakter arasında olmalıdır.",
+  })
+}
 
   const selectedProgram = programs.find(
     (program) => program.slug === programSlug,
@@ -290,6 +302,7 @@ app.post("/api/orders", async (req, res) => {
         customerName: cleanName,
         customerEmail: cleanEmail,
         customerPhone: cleanPhone,
+        customerAddress: cleanAddress,
         programSlug: selectedProgram.slug,
         programName: selectedProgram.name,
         amount: selectedProgram.amount,

@@ -53,6 +53,7 @@ model Order {
   customerName     String
   customerEmail    String
   customerPhone    String
+  customerAddress  String?
   programSlug      String
   programName      String
   amount           Int

@@ -28,6 +28,7 @@ function CheckoutForm({ program }) {
           customerName: formData.get("customerName"),
           customerEmail: formData.get("customerEmail"),
           customerPhone: formData.get("customerPhone"),
+          customerAddress: formData.get("customerAddress"),
           programSlug: program.slug,
           termsAccepted: formData.has("termsAccepted"),
           privacyNoticeAccepted: formData.has(
@@ -107,6 +108,19 @@ function CheckoutForm({ program }) {
           autoComplete="tel"
           required
         />
+      </div>
+
+      <div className="checkout-form__field">
+         <label htmlFor="checkout-address">Fatura Adresi</label>
+         <textarea
+              id="checkout-address"
+              name="customerAddress"
+              minLength="10"
+              maxLength="400"
+             rows="3"
+             autoComplete="street-address"
+             required
+       />
       </div>
 
      <div className="checkout-form__check">
