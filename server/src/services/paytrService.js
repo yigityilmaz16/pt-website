@@ -145,8 +145,53 @@ async function requestPaytrIframeToken({
   return result.token
 }
 
+function verifyPaytrCallback({
+  merchantOid,
+  status,
+  totalAmount,
+  hash,
+}) {
+  if (
+    typeof merchantOid !== "string" ||
+    typeof status !== "string" ||
+    typeof totalAmount !== "string" ||
+    typeof hash !== "string"
+  ) {
+    return false
+  }
+
+  const {
+    merchantKey,
+    merchantSalt,
+  } = getPaytrConfig()
+
+  const hashString =
+    merchantOid +
+    merchantSalt +
+    status +
+    totalAmount
+
+  const expectedHash = crypto
+    .createHmac("sha256", merchantKey)
+    .update(hashString)
+    .digest("base64")
+
+  const expectedBuffer = Buffer.from(expectedHash)
+  const receivedBuffer = Buffer.from(hash)
+
+  if (expectedBuffer.length !== receivedBuffer.length) {
+    return false
+  }
+
+  return crypto.timingSafeEqual(
+    expectedBuffer,
+    receivedBuffer,
+  )
+}
+
 export {
   createPaytrBasket,
   requestPaytrIframeToken,
+  verifyPaytrCallback,
 }
 export default createPaytrToken

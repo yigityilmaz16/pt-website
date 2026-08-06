@@ -9,7 +9,10 @@ import programs from "./data/programs.js"
 import getClientIp from "./utils/getClientIp.js"
 import {
   requestPaytrIframeToken,
+  verifyPaytrCallback,
 } from "./services/paytrService.js"
+import crypto from "node:crypto"
+
 
 const app = express()
 app.set("trust proxy", 1)
@@ -20,6 +23,7 @@ const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
 
 app.use(cors({ origin: clientUrl }))
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 
 
 app.get("/api/assessments/:token", async (req, res) => {
@@ -395,6 +399,94 @@ app.post("/api/payments/paytr/token", async (req, res) => {
     })
   }
 })
+
+app.post(
+  "/api/payments/paytr/callback",
+  async (req, res) => {
+    const {
+      merchant_oid: merchantOid,
+      status,
+      total_amount: totalAmount,
+      hash,
+    } = req.body
+
+    try {
+      const isValidCallback = verifyPaytrCallback({
+        merchantOid,
+        status,
+        totalAmount,
+        hash,
+      })
+
+      if (!isValidCallback) {
+        return res
+          .status(400)
+          .send("PAYTR notification failed: bad hash")
+      }
+
+      const order = await prisma.order.findUnique({
+        where: {
+          orderNumber: merchantOid,
+        },
+      })
+
+      if (!order) {
+        console.error(
+          "PayTR siparişi bulunamadı:",
+          merchantOid,
+        )
+
+        return res.status(404).send("Order not found")
+      }
+
+      if (order.status !== "PENDING") {
+        return res.send("OK")
+      }
+
+      if (status === "success") {
+        const assessmentToken = crypto
+          .randomBytes(32)
+          .toString("hex")
+
+        await prisma.order.updateMany({
+          where: {
+            id: order.id,
+            status: "PENDING",
+          },
+          data: {
+            status: "PAID",
+            paidAt: new Date(),
+            paymentReference: `PAYTR-${merchantOid}`,
+            assessmentToken,
+          },
+        })
+
+        return res.send("OK")
+      }
+
+      await prisma.order.updateMany({
+        where: {
+          id: order.id,
+          status: "PENDING",
+        },
+        data: {
+          status: "FAILED",
+        },
+      })
+
+      return res.send("OK")
+    } catch (error) {
+      console.error(
+        "PayTR bildirimi işlenemedi:",
+        error,
+      )
+
+      return res
+        .status(500)
+        .send("PAYTR notification failed")
+    }
+  },
+)
 
 app.post("/api/admin/login", async (req, res) => {
   const { email, password } = req.body
