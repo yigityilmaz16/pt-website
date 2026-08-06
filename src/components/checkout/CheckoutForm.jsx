@@ -1,14 +1,50 @@
 import { useState } from "react"
 import LegalModal from "./LegalModal"
 import getApiUrl from "../../config/api"
+import PaytrIframe from "./PaytrIframe"
 
 function CheckoutForm({ program }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formMessage, setFormMessage] = useState("")
   const [order, setOrder] = useState(null)
+  const [iframeUrl, setIframeUrl] = useState("")
   const [activeLegalDocument, setActiveLegalDocument] = useState(null)
   const [termsRead, setTermsRead] = useState(false)
   const [privacyRead, setPrivacyRead] = useState(false)
+
+  async function getPaymentIframe(orderNumber) {
+  const response = await fetch(
+    getApiUrl("/api/payments/paytr/token"),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        orderNumber,
+      }),
+    },
+  )
+
+  const data = await response.json()
+
+  if (!response.ok) {
+    throw new Error(
+      data.message || "Ödeme ekranı hazırlanamadı.",
+    )
+  }
+
+  if (
+    typeof data.iframeUrl !== "string" ||
+    !data.iframeUrl.startsWith(
+      "https://www.paytr.com/odeme/guvenli/",
+    )
+  ) {
+    throw new Error("Geçersiz ödeme ekranı adresi.")
+  }
+
+  return data.iframeUrl
+}
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -46,13 +82,30 @@ function CheckoutForm({ program }) {
 
       setOrder(data)
       form.reset()
+
+      const newIframeUrl = await getPaymentIframe(
+           data.orderNumber,
+        )
+
+setIframeUrl(newIframeUrl)
     } catch (error) {
-      console.error("Sipariş oluşturulamadı:", error)
-      setFormMessage("Server bağlantısı kurulamadı.")
+     console.error("Ödeme işlemi başlatılamadı:", error)
+     setFormMessage(
+         error.message || "Ödeme işlemi başlatılamadı.",
+        )
     } finally {
       setIsSubmitting(false)
     }
   }
+  if (order && iframeUrl) {
+  return (
+    <div className="checkout-form checkout-form--payment">
+      <span>GÜVENLİ ÖDEME</span>
+      <h3>{order.programName}</h3>
+      <PaytrIframe iframeUrl={iframeUrl} />
+    </div>
+  )
+}
 
   if (order) {
     return (
@@ -67,6 +120,39 @@ function CheckoutForm({ program }) {
           Bir sonraki adımda güvenli ödeme ekranına
           yönlendirileceksin.
         </p>
+        <button
+             type="button"
+             disabled={isSubmitting}
+             onClick={async () => {
+             setIsSubmitting(true)
+             setFormMessage("")
+
+    try {
+      const newIframeUrl = await getPaymentIframe(
+        order.orderNumber,
+      )
+
+      setIframeUrl(newIframeUrl)
+    } catch (error) {
+      setFormMessage(
+        error.message ||
+          "Ödeme ekranı hazırlanamadı.",
+      )
+    } finally {
+      setIsSubmitting(false)
+    }
+  }}
+>
+  {isSubmitting
+    ? "Ödeme Ekranı Hazırlanıyor..."
+    : "Ödeme Ekranını Tekrar Aç"}
+</button>
+
+{formMessage && (
+  <p className="checkout-form__message">
+    {formMessage}
+  </p>
+)}
       </div>
     )
   }
@@ -189,8 +275,10 @@ function CheckoutForm({ program }) {
   >
     <h3>Taraflar</h3>
     <p>
-      Bu bölümde hizmet sağlayıcı ile online koçluk hizmetini satın
-      alan kullanıcı arasındaki koşullar açıklanacaktır.
+       Hizmet sağlayıcı Eren Serbest'tir. Adres: İstiklal
+       Mahallesi Hürriyet 20. Gül Sokak No: 7A4
+       Osmangazi/Bursa. E-posta: serbesterenn@gmail.com.
+       Alıcı, sipariş sırasında bilgilerini paylaşan kişidir.
     </p>
 
     <h3>Hizmetin Konusu</h3>
@@ -202,27 +290,25 @@ function CheckoutForm({ program }) {
 
     <h3>Ücret ve Ödeme</h3>
     <p>
-      Paket ücreti ödeme ekranında gösterilir. Gerçek ödeme,
-      iyzico entegrasyonu tamamlandıktan sonra güvenli ödeme
-      altyapısı üzerinden alınacaktır.
+      Güncel paket bedeli sipariş öncesinde gösterilir.
+      Ödeme, PayTR güvenli ödeme altyapısı üzerinden
+      gerçekleştirilir. Kart bilgileri FITCOACH tarafından
+      saklanmaz.
     </p>
 
     <h3>Hizmetin Başlangıcı</h3>
     <p>
-      Hizmetin başlangıç zamanı ve program teslim süresi site
-      sahibi tarafından doğrulanarak nihai metne eklenecektir.
+       Online koçluk hizmeti başarılı ödemenin ardından en geç
+       1 iş günü içinde başlar. Program ve takip süreci WhatsApp
+       üzerinden yürütülür.
     </p>
 
     <h3>İptal ve İade</h3>
     <p>
-      Hizmet başlamadan ve başladıktan sonra uygulanacak iptal
-      ve iade şartları site sahibi tarafından belirlenecektir.
-    </p>
-
-    <h3>Taslak Uyarısı</h3>
-    <p>
-      Bu metin gerçek satıcı ve hizmet bilgileri eklenmeden
-      yayına alınmamalıdır.
+        Talepler yürürlükteki tüketici mevzuatı, hizmetin başlayıp
+        başlamadığı ve kişiye özel programın hazırlanma durumu
+        dikkate alınarak değerlendirilir. Tüketicinin kanuni
+        hakları saklıdır.
     </p>
   </LegalModal>
 )}
@@ -234,14 +320,16 @@ function CheckoutForm({ program }) {
   >
     <h3>Veri Sorumlusu</h3>
     <p>
-      Veri sorumlusunun ad-soyad veya şirket unvanı ve iletişim
-      bilgileri, site sahibi tarafından nihai metne eklenecektir.
+      6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında
+      veri sorumlusu Eren Serbest'tir. İletişim adresi:
+      serbesterenn@gmail.com.
     </p>
 
     <h3>Toplanan Bilgiler</h3>
     <p>
-      Sipariş sırasında ad-soyad, e-posta, telefon, seçilen paket
-      ve ödeme sürecine ilişkin bilgiler işlenebilir.
+     Sipariş sırasında ad-soyad, e-posta, telefon, fatura
+     adresi, seçilen paket ve ödeme sürecine ilişkin bilgiler
+     işlenebilir.
     </p>
 
     <h3>Koçluk Bilgileri</h3>
@@ -260,21 +348,16 @@ function CheckoutForm({ program }) {
 
     <h3>Saklama ve Güvenlik</h3>
     <p>
-      Saklama süreleri, erişim yetkileri ve silme süreçleri site
-      sahibinin gerçek çalışma biçimine göre nihai metinde
-      açıklanacaktır.
+       Boy, kilo, hedef ve sağlık bilgileri koçluk hizmetinin
+       sona ermesinden itibaren 15 iş günü içinde silinir veya
+       anonimleştirilir. Sipariş ve ödeme kayıtları yasal saklama
+       yükümlülükleri boyunca korunur.
     </p>
 
     <h3>Başvuru ve İletişim</h3>
     <p>
-      Kullanıcının kişisel verileriyle ilgili başvuru yapabileceği
-      iletişim adresi site sahibi tarafından eklenecektir.
-    </p>
-
-    <h3>Taslak Uyarısı</h3>
-    <p>
-      Bu metin gerçek veri sorumlusu ve saklama bilgileri
-      eklenmeden yayına alınmamalıdır.
+       Kişisel verilerle ilgili talepler
+       serbesterenn@gmail.com adresine iletilebilir.
     </p>
   </LegalModal>
 )}

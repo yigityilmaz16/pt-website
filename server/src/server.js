@@ -337,6 +337,60 @@ app.post("/api/orders", async (req, res) => {
   }
 })
 
+app.get("/api/orders/:orderNumber/status", async (req, res) => {
+  const { orderNumber } = req.params
+
+  if (
+    typeof orderNumber !== "string" ||
+    !/^[a-zA-Z0-9]+$/.test(orderNumber) ||
+    orderNumber.length > 64
+  ) {
+    return res.status(400).json({
+      message: "Geçersiz sipariş numarası.",
+    })
+  }
+
+  try {
+    const order = await prisma.order.findUnique({
+      where: {
+        orderNumber,
+      },
+      select: {
+        orderNumber: true,
+        programName: true,
+        status: true,
+        assessmentToken: true,
+      },
+    })
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Sipariş bulunamadı.",
+      })
+    }
+
+    res.json({
+      orderNumber: order.orderNumber,
+      programName: order.programName,
+      status: order.status,
+      assessmentUrl:
+        order.status === "PAID" &&
+        order.assessmentToken
+          ? `/assessment/${order.assessmentToken}`
+          : null,
+    })
+  } catch (error) {
+    console.error(
+      "Sipariş durumu alınamadı:",
+      error,
+    )
+
+    res.status(500).json({
+      message: "Sipariş durumu alınamadı.",
+    })
+  }
+})
+
 app.post("/api/payments/paytr/token", async (req, res) => {
   const { orderNumber } = req.body
 

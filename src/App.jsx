@@ -12,6 +12,10 @@ import {
   DistanceSalesAgreement,
   CancellationRefundPolicy,
 } from "./pages/LegalDocuments"
+import {
+  PaymentSuccess,
+  PaymentFailure,
+} from "./pages/PaymentResult"
 
 function App(){
   const location = useLocation()
@@ -25,6 +29,8 @@ const isAdminRoute = location.pathname.startsWith("/admin")
         <Route path="/admin" element={<Admin />} />
         <Route path="/checkout/:slug" element={<Navigate to="/" replace />} />
         <Route path="/assessment/:token" element={<Assessment />} />
+        <Route path="/payment/success" element={<PaymentSuccess />} />
+        <Route path="/payment/failure" element={<PaymentFailure />} />
         <Route path="/gizlilik-politikasi" element={<PrivacyPolicy />} />
         <Route path="/kvkk-aydinlatma" element={<KvkkNotice />} />
         <Route
