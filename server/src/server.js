@@ -6,6 +6,10 @@ import cors from 'cors'
 import 'dotenv/config'
 import express from 'express'
 import programs from "./data/programs.js"
+import getClientIp from "./utils/getClientIp.js"
+import {
+  requestPaytrIframeToken,
+} from "./services/paytrService.js"
 
 const app = express()
 app.set("trust proxy", 1)
@@ -325,6 +329,69 @@ app.post("/api/orders", async (req, res) => {
 
     res.status(500).json({
       message: "Sipariş oluşturulamadı.",
+    })
+  }
+})
+
+app.post("/api/payments/paytr/token", async (req, res) => {
+  const { orderNumber } = req.body
+
+  if (
+    typeof orderNumber !== "string" ||
+    !/^[a-zA-Z0-9]+$/.test(orderNumber) ||
+    orderNumber.length > 64
+  ) {
+    return res.status(400).json({
+      message: "Geçersiz sipariş numarası.",
+    })
+  }
+
+  try {
+    const order = await prisma.order.findUnique({
+      where: {
+        orderNumber,
+      },
+    })
+
+    if (!order) {
+      return res.status(404).json({
+        message: "Sipariş bulunamadı.",
+      })
+    }
+
+    if (order.status !== "PENDING") {
+      return res.status(409).json({
+        message: "Bu sipariş ödeme için uygun değil.",
+      })
+    }
+
+    const userIp = getClientIp(req)
+
+    if (!userIp || userIp.length > 39) {
+      return res.status(400).json({
+        message: "Müşteri IP adresi belirlenemedi.",
+      })
+    }
+
+    const iframeToken = await requestPaytrIframeToken({
+      order,
+      userIp,
+      clientUrl,
+    })
+
+    res.json({
+      iframeToken,
+      iframeUrl:
+        `https://www.paytr.com/odeme/guvenli/${iframeToken}`,
+    })
+  } catch (error) {
+    console.error(
+      "PayTR ödeme ekranı hazırlanamadı:",
+      error,
+    )
+
+    res.status(500).json({
+      message: "Ödeme ekranı hazırlanamadı.",
     })
   }
 })

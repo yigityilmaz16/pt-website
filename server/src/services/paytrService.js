@@ -55,5 +55,98 @@ function createPaytrToken({
     .digest("base64")
 }
 
-export { createPaytrBasket }
+async function requestPaytrIframeToken({
+  order,
+  userIp,
+  clientUrl,
+}) {
+  if (!order.customerAddress) {
+    throw new Error("Sipariş adresi eksik.")
+  }
+
+  const {
+    merchantId,
+    testMode,
+    debugOn,
+  } = getPaytrConfig()
+
+  const noInstallment = "0"
+  const maxInstallment = "0"
+  const currency = order.currency
+  const paymentAmount = String(order.amount)
+  const userBasket = createPaytrBasket(
+    order.programName,
+    order.amount,
+  )
+
+  const paytrToken = createPaytrToken({
+    userIp,
+    merchantOid: order.orderNumber,
+    email: order.customerEmail,
+    paymentAmount,
+    userBasket,
+    noInstallment,
+    maxInstallment,
+    currency,
+  })
+
+  const baseClientUrl = clientUrl.replace(/\/+$/, "")
+
+  const formData = new URLSearchParams({
+    merchant_id: merchantId,
+    user_ip: userIp,
+    merchant_oid: order.orderNumber,
+    email: order.customerEmail,
+    payment_amount: paymentAmount,
+    paytr_token: paytrToken,
+    user_basket: userBasket,
+    debug_on: debugOn,
+    no_installment: noInstallment,
+    max_installment: maxInstallment,
+    user_name: order.customerName,
+    user_address: order.customerAddress,
+    user_phone: order.customerPhone,
+    merchant_ok_url:
+      `${baseClientUrl}/payment/success?order=${order.orderNumber}`,
+    merchant_fail_url:
+      `${baseClientUrl}/payment/failure?order=${order.orderNumber}`,
+    timeout_limit: "30",
+    currency,
+    test_mode: testMode,
+    lang: "tr",
+  })
+
+  const response = await fetch(
+    "https://www.paytr.com/odeme/api/get-token",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type":
+          "application/x-www-form-urlencoded",
+      },
+      body: formData,
+    },
+  )
+
+  if (!response.ok) {
+    throw new Error(
+      `PayTR bağlantı hatası: ${response.status}`,
+    )
+  }
+
+  const result = await response.json()
+
+  if (result.status !== "success" || !result.token) {
+    throw new Error(
+      result.reason || "PayTR token oluşturamadı.",
+    )
+  }
+
+  return result.token
+}
+
+export {
+  createPaytrBasket,
+  requestPaytrIframeToken,
+}
 export default createPaytrToken
