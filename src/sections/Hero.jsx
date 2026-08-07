@@ -35,7 +35,7 @@ function Hero() {
 
           <div className="hero__actions">
             <a className="button button--primary" href="#services">
-              Programları İncele
+              Paketleri İncele
             </a>
             <a className="button button--secondary" href="#contact">
               İletişime Geç
