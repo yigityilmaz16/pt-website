@@ -276,8 +276,8 @@ setIframeUrl(newIframeUrl)
     <h3>Taraflar</h3>
     <p>
        Hizmet sağlayıcı Eren Serbest'tir. Adres: İstiklal
-       Mahallesi Hürriyet 20. Gül Sokak No: 7A4
-       Osmangazi/Bursa. E-posta: serbesterenn@gmail.com.
+       Mahallesi Hürriyet 20. Gül Sokak No: 17A4,
+       Osmangazi/Bursa, Türkiye. E-posta: serbesterenn@gmail.com.
        Alıcı, sipariş sırasında bilgilerini paylaşan kişidir.
     </p>
 

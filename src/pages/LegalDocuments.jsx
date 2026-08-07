@@ -3,7 +3,7 @@ import LegalPage from "./LegalPage"
 const updatedAt = "1 Ağustos 2026"
 const providerName = "Eren Serbest"
 const providerAddress =
-  "İstiklal Mahallesi Hürriyet 20. Gül Sokak No: 7A4 Osmangazi/Bursa"
+  "İstiklal Mahallesi Hürriyet 20. Gül Sokak No: 17A4, Osmangazi/Bursa, Türkiye"
 const providerEmail = "serbesterenn@gmail.com"
 const providerPhone = "+90 530 095 42 66"
 

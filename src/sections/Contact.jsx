@@ -71,7 +71,7 @@ function Contact(){
                     <p><a href="tel:+905300954266">+90 530 095 42 66</a></p> 
                     <p><a href="mailto:serbesterenn@gmail.com">serbesterenn@gmail.com</a></p>
                     <p>
-                        İstiklal Mahallesi Hürriyet 20. Gül Sokak No: 7A4,
+                        İstiklal Mahallesi Hürriyet 20. Gül Sokak No: 17A4,
                         Osmangazi/Bursa, Türkiye
                     </p>
                </div>
