@@ -22,9 +22,15 @@ function Hero() {
           </h1>
 
           <p className="hero__description">
-            Kişiye özel antrenman ve beslenme programlarıyla yalnızca fiziğini değil,
-            yaşam tarzını da dönüştür. Sürdürülebilir ve kalıcı sonuçlarla daha güçlü,
-            fit ve özgüvenli bir sen oluştur.
+            Kişiye özel antrenman ve beslenme programlarıyla sadece fiziksel değil,
+            yaşam tarzını da dönüştür. Değişim tesadüf değil, doğru planın sonucudur.
+            İstediğin fiziğe giden yolu birlikte planlıyor, sürdürülebilir ve kalıcı
+            sonuçlarla daha güçlü, daha fit ve daha özgüvenli bir sen oluşturuyoruz.
+            Hayalindeki fiziğe ulaşmak sandığından daha yakın. Kendinin en iyi
+            versiyonu olmaya bugün başla. Sınır yok. Bahane yok. Sonuç var.
+            <span>
+              Aşağıdaki paketlerden sana en uygun olanı seç ve değişimine bugün başla.
+            </span>
           </p>
 
           <div className="hero__actions">

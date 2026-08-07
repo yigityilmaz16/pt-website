@@ -1818,7 +1818,7 @@
 
 .hero h1 {
   max-width: 660px;
-  font-size: clamp(3rem, 5.2vw, 5rem);
+  font-size: clamp(2.7rem, 3.35vw, 3.35rem);
   line-height: 1;
   letter-spacing: -0.055em;
   text-transform: none;
@@ -1831,10 +1831,17 @@
 }
 
 .hero__description {
-  max-width: 545px;
-  margin-top: 26px;
-  font-size: clamp(1rem, 1.35vw, 1.1rem);
-  line-height: 1.7;
+  max-width: 590px;
+  margin-top: 22px;
+  font-size: clamp(0.9rem, 1.12vw, 1rem);
+  line-height: 1.58;
+}
+
+.hero__description > span {
+  display: block;
+  margin-top: 10px;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 650;
 }
 
 .hero__actions {
@@ -2837,14 +2844,16 @@
   }
 
   .hero h1 {
-    max-width: 10ch;
-    font-size: clamp(2.65rem, 12.5vw, 4.1rem);
+    max-width: 100%;
+    font-size: clamp(2rem, 8.7vw, 2.55rem);
     line-height: 0.98;
   }
 
   .hero__description {
     max-width: 34rem;
     color: rgba(255, 255, 255, 0.78);
+    font-size: clamp(0.86rem, 3.7vw, 0.98rem);
+    line-height: 1.5;
   }
 
   .hero__actions {
