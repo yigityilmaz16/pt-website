@@ -3412,6 +3412,11 @@
   content: "✉";
 }
 
+.contact-info > p:nth-of-type(3)::before {
+  content: "⌖";
+  font-size: 1.1rem;
+}
+
 /* Contact form */
 .contact-card > form {
   grid-column: 2;

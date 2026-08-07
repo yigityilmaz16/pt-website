@@ -70,6 +70,10 @@ function Contact(){
                     <h4>Eren Serbest</h4>
                     <p><a href="tel:+905300954266">+90 530 095 42 66</a></p> 
                     <p><a href="mailto:serbesterenn@gmail.com">serbesterenn@gmail.com</a></p>
+                    <p>
+                        İstiklal Mahallesi Hürriyet 20. Gül Sokak No: 7A4,
+                        Osmangazi/Bursa, Türkiye
+                    </p>
                </div>
                <form onSubmit={handleSubmit}>
                     <div className="contact-field">
