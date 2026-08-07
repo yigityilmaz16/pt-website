@@ -17,11 +17,14 @@ function Hero() {
           </p>
 
           <h1 id="hero-title">
-            Hedeflerine Ulaş, <span>Gücünü Keşfet</span>
+            Hedeflerine Ulaş,{' '}
+            <span>Potansiyelini Gerçeğe Dönüştür.</span>
           </h1>
 
           <p className="hero__description">
-            Kişiye özel antrenman ve beslenme planlarıyla sürdürülebilir sonuçlar elde et.
+            Kişiye özel antrenman ve beslenme programlarıyla yalnızca fiziğini değil,
+            yaşam tarzını da dönüştür. Sürdürülebilir ve kalıcı sonuçlarla daha güçlü,
+            fit ve özgüvenli bir sen oluştur.
           </p>
 
           <div className="hero__actions">

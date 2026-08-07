@@ -41,14 +41,17 @@ function About() {
 
           <div className="about__copy">
             <p>
-              Her bireyin hedefi, yaşam tarzı ve ihtiyaçları farklıdır. Bu nedenle
-              antrenman ve beslenme planlarını tamamen kişiye özel hazırlıyor,
-              sürecin her aşamasında düzenli takip ve destek sağlıyorum.
+              Her bireyin hedefi, yaşam tarzı ve ihtiyaçları farklıdır. Gerçek değişim
+              tek bir programla değil; doğru planlama, düzenli takip ve istikrarlı bir
+              süreçle gerçekleşir.
             </p>
             <p>
-              Amacım yalnızca kısa vadeli değişim değil; sürdürülebilir alışkanlıklar
-              kazandırarak daha güçlü, sağlıklı ve özgüvenli bir yaşam oluşturmanı
-              sağlamak.
+              Bu nedenle süreç boyunca gelişimini analiz ediyor; antrenman ve beslenme
+              planlarını tamamen kişiye özel hazırlayıp ihtiyaçlarına göre zaman zaman
+              güncelliyorum. Sürecin her aşamasında düzenli takip ve destek sağlıyorum.
+              Amacım yalnızca kısa vadeli değişim değil; sürdürülebilir
+              alışkanlıklar kazandırarak daha güçlü, sağlıklı ve özgüvenli bir yaşam
+              oluşturmanı sağlamak.
             </p>
           </div>
 
