@@ -26,7 +26,7 @@ function About() {
               }}
             />
             <span className="about__image-label" aria-hidden="true">
-              Fitcoach
+              Personal Trainer
             </span>
           </div>
         </div>
