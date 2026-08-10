@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import programs from "../data/programs";
+import programImage from "../assets/program-trainer.jpg";
 
 function Services(){
     return(
@@ -12,16 +13,21 @@ function Services(){
         {programs.map((program) => (
             <article className={`service-card ${program.popular ? "service-card--popular" : ""}`} key={program.id}>
                 {program.popular && <span className="service-card__badge">En Popüler</span>}
-                <h3>{program.duration}</h3>
-                <del>{program.oldPrice}</del>
-                <span className="service-card__discount">{program.discount}</span>
-                <h4>{program.price}</h4>
-                <ul>
-                    {program.features.map((feature,index) =>(
-                        <li key={index}>{feature}</li>
-                    ))}
-                </ul>
-                 <Link to={`/services/${program.slug}`}>Programı İncele</Link>
+                <div className="service-card__visual" aria-hidden="true">
+                    <img src={programImage} alt="" />
+                </div>
+                <div className="service-card__body">
+                    <h3>{program.duration}</h3>
+                    <del>{program.oldPrice}</del>
+                    <span className="service-card__discount">{program.discount}</span>
+                    <h4>{program.price}</h4>
+                    <ul>
+                        {program.features.map((feature,index) =>(
+                            <li key={index}>{feature}</li>
+                        ))}
+                    </ul>
+                    <Link to={`/services/${program.slug}`}>Programı İncele</Link>
+                </div>
             </article>
         ))}
         </div>

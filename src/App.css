@@ -2259,9 +2259,10 @@
 .service-card {
   position: relative;
   min-width: 0;
-  padding: clamp(30px, 3vw, 42px);
+  padding: 0;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   background: #111;
@@ -2288,6 +2289,46 @@
   font-weight: 850;
   letter-spacing: 0.11em;
   text-transform: uppercase;
+  z-index: 3;
+}
+
+.service-card__visual {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 250px;
+  overflow: hidden;
+  background: #111;
+}
+
+.service-card__visual::after {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.3) 0%, rgba(17, 17, 17, 0.58) 52%, #111 100%),
+    linear-gradient(90deg, rgba(17, 17, 17, 0.42), transparent 48%, rgba(17, 17, 17, 0.32));
+  content: "";
+  pointer-events: none;
+}
+
+.service-card__visual img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  object-position: 50% top;
+  opacity: 0.82;
+}
+
+.service-card__body {
+  position: relative;
+  z-index: 2;
+  padding: clamp(30px, 3vw, 42px);
+  display: flex;
+  flex: 1;
+  flex-direction: column;
 }
 
 .service-card h3 {
@@ -2353,7 +2394,7 @@
   line-height: 1.45;
 }
 
-.service-card > a {
+.service-card__body > a {
   min-height: 56px;
   margin-top: auto;
   padding: 0 24px;
@@ -2369,20 +2410,20 @@
   transition: background 180ms ease, border-color 180ms ease, transform 180ms ease;
 }
 
-.service-card > a:hover,
-.service-card > a:focus-visible {
+.service-card__body > a:hover,
+.service-card__body > a:focus-visible {
   border-color: #ff1a13;
   background: #ff1a13;
   transform: translateY(-2px);
 }
 
-.service-card--popular > a {
+.service-card--popular .service-card__body > a {
   border-color: #e10600;
   background: #e10600;
 }
 
-.service-card--popular > a:hover,
-.service-card--popular > a:focus-visible {
+.service-card--popular .service-card__body > a:hover,
+.service-card--popular .service-card__body > a:focus-visible {
   border-color: #ff1a13;
   background: #ff1a13;
 }
@@ -2412,7 +2453,15 @@
   }
 
   .service-card {
+    padding: 0;
+  }
+
+  .service-card__body {
     padding: 30px 26px;
+  }
+
+  .service-card__visual {
+    height: 242px;
   }
 }
 
