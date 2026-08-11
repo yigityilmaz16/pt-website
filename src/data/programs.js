@@ -1,8 +1,8 @@
 const programs = [
     {
         id: 1,
-        duration: "4 Haftalık Uzaktan Eğitim & Koçluk Paketi",
-        name: "4 Haftalık Uzaktan Eğitim & Koçluk Paketi",
+        duration: "4 Haftalık",
+        name: "4 Haftalık Uzaktan Eğitim&Koçluk Paketi",
         slug: "1-aylik-paket",
         oldPrice: "2.500 TL",
         discount: "%20 İndirim",
@@ -20,8 +20,8 @@ const programs = [
     },
     {
         id: 2,
-        duration: "12 Haftalık Uzaktan Eğitim & Koçluk Paketi",
-        name: "12 Haftalık Uzaktan Eğitim & Koçluk Paketi",
+        duration: "12 Haftalık",
+        name: "12 Haftalık Uzaktan Eğitim&Koçluk Paketi",
         slug: "3-aylik-paket",
         oldPrice: "6.000 TL",
         discount: "%25 İndirim",
@@ -39,8 +39,8 @@ const programs = [
     },
     {
         id: 3,
-        duration: "24 Haftalık Uzaktan Eğitim & Koçluk Paketi",
-        name: "24 Haftalık Uzaktan Eğitim & Koçluk Paketi",
+        duration: "24 Haftalık",
+        name: "24 Haftalık Uzaktan Eğitim&Koçluk Paketi",
         slug: "6-aylik-paket",
         oldPrice: "16.000 TL",
         discount: "%50 İndirim",

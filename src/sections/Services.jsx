@@ -17,7 +17,7 @@ function Services(){
                     <img src={programImage} alt="" />
                 </div>
                 <div className="service-card__body">
-                    <h3>{program.duration}</h3>
+                    <h3>{program.name}</h3>
                     <del>{program.oldPrice}</del>
                     <span className="service-card__discount">{program.discount}</span>
                     <h4>{program.price}</h4>
