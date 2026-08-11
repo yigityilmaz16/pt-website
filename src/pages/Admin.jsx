@@ -1,4 +1,5 @@
 import { useState } from "react"
+import BrandLogo from "../components/BrandLogo"
 import getApiUrl from "../config/api"
 import AdminMessages from "../components/admin/AdminMessages"
 import AdminTestimonials from "../components/admin/AdminTestimonials"
@@ -63,7 +64,7 @@ if (token) {
       <div className="admin-shell">
         <header className="admin-dashboard__header">
           <div>
-            <span className="admin-brand">FITCOACH<span>.</span></span>
+            <BrandLogo className="admin-brand" />
             <p className="admin-dashboard__eyebrow">YÖNETİM MERKEZİ</p>
             <h1>Admin Paneli</h1>
             <p>Mesajları ve danışan yorumlarını tek yerden yönet.</p>
@@ -86,7 +87,7 @@ if (token) {
   return (
     <main className="admin-page admin-page--login">
       <section className="admin-login">
-        <span className="admin-brand">FITCOACH<span>.</span></span>
+        <BrandLogo className="admin-brand" />
         <span className="admin-login__eyebrow">GÜVENLİ YÖNETİM ALANI</span>
         <h1>Admin Girişi</h1>
         <p>Yönetim paneline erişmek için bilgilerini gir.</p>

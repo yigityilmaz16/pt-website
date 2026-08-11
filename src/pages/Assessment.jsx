@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { Link, useParams } from "react-router-dom"
+import BrandLogo from "../components/BrandLogo"
 import getApiUrl from "../config/api"
 
 function Assessment() {
@@ -96,7 +97,7 @@ if (isChecking) {
   return (
     <main className="assessment-page assessment-status-page">
       <div className="assessment-status-card">
-        <span>FITCOACH.</span>
+        <BrandLogo className="assessment-status-logo" />
         <h1>Bağlantı Kontrol Ediliyor</h1>
         <p>Lütfen kısa bir süre bekleyin.</p>
       </div>
@@ -108,7 +109,7 @@ if (linkError) {
   return (
     <main className="assessment-page assessment-status-page">
       <div className="assessment-status-card">
-        <span>FITCOACH.</span>
+        <BrandLogo className="assessment-status-logo" />
         <h1>Bağlantı Kullanılamıyor</h1>
         <p>{linkError}</p>
         <Link to="/">Ana Sayfaya Dön</Link>
@@ -121,7 +122,7 @@ if (assessmentInfo?.completed) {
   return (
     <main className="assessment-page assessment-status-page">
       <div className="assessment-status-card">
-        <span>FITCOACH.</span>
+        <BrandLogo className="assessment-status-logo" />
         <h1>Değerlendirme Tamamlandı</h1>
         <p>Bu sipariş için değerlendirme formu daha önce gönderilmiş.</p>
         <Link to="/">Ana Sayfaya Dön</Link>
@@ -133,7 +134,7 @@ if (assessmentInfo?.completed) {
     <main className="assessment-page">
       <header className="assessment-header">
         <Link className="assessment-logo" to="/">
-          FITCOACH<span>.</span>
+          <BrandLogo />
         </Link>
         <span>Başlangıç Değerlendirmesi</span>
       </header>

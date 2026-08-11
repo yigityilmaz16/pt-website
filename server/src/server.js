@@ -885,7 +885,7 @@ app.post('/api/contact' , async (req,res) =>{
 })
 
 app.get('/api/health', (req, res) => {
-  res.json({ message: 'FITCOACH API çalışıyor.' })
+  res.json({ message: 'Eren Serbest API çalışıyor.' })
 })
 
 app.get("/api/testimonials", async (req, res) => {

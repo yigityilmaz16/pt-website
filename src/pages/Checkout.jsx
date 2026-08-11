@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom"
 import programs from "../data/programs"
 import CheckoutForm from "../components/checkout/CheckoutForm"
+import BrandLogo from "../components/BrandLogo"
 
 function Checkout() {
   const { slug } = useParams()
@@ -19,7 +20,7 @@ function Checkout() {
     <main className="checkout-page">
       <header className="checkout-header">
         <Link to="/" className="checkout-logo">
-          FITCOACH<span>.</span>
+          <BrandLogo />
         </Link>
 
         <Link to={`/services/${program.slug}`}>

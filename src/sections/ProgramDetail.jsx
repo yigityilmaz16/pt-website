@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom"
 import programImage from "../assets/hero-pt.jpg"
 import programs from "../data/programs"
+import BrandLogo from "../components/BrandLogo"
 
 function ProgramDetail(){
     const { slug } = useParams()
@@ -20,7 +21,7 @@ function ProgramDetail(){
     return(
         <main className="program-detail">
             <div className="program-detail__top">
-                <Link className="program-detail__logo" to="/">FITCOACH</Link>
+                <Link className="program-detail__logo" to="/"><BrandLogo /></Link>
                 <Link className="program-detail__back" to="/#services">← Programlara Dön</Link>
             </div>
 

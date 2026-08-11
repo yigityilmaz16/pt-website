@@ -266,7 +266,7 @@ setIframeUrl(newIframeUrl)
         <p className="checkout-form__message">{formMessage}</p>
       )}
 
-      <small>Kart bilgilerin FITCOACH tarafından saklanmaz.</small>
+      <small>Kart bilgilerin Eren Serbest tarafından saklanmaz.</small>
       {activeLegalDocument === "terms" && (
   <LegalModal
     title="Mesafeli Satış ve İade Koşulları"
@@ -292,7 +292,7 @@ setIframeUrl(newIframeUrl)
     <p>
       Güncel paket bedeli sipariş öncesinde gösterilir.
       Ödeme, PayTR güvenli ödeme altyapısı üzerinden
-      gerçekleştirilir. Kart bilgileri FITCOACH tarafından
+      gerçekleştirilir. Kart bilgileri Eren Serbest tarafından
       saklanmaz.
     </p>
 

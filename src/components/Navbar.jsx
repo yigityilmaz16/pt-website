@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import BrandLogo from './BrandLogo'
 
 const navigationItems = [
   { label: 'Hakkımda', href: '#about' },
@@ -15,8 +16,8 @@ function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar__inner">
-        <a className="navbar__logo" href="#" aria-label="FITCOACH ana sayfa" onClick={closeMenu}>
-          FIT<span>COACH</span>
+        <a className="navbar__logo" href="#" aria-label="Eren Serbest ana sayfa" onClick={closeMenu}>
+          <BrandLogo />
         </a>
 
         <button

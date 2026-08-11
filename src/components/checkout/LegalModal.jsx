@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react"
+import BrandLogo from "../BrandLogo"
 
 function LegalModal({ title, children, onClose, onAccept }) {
   const contentRef = useRef(null)
@@ -63,7 +64,7 @@ function LegalModal({ title, children, onClose, onAccept }) {
       <div className="legal-modal__panel">
         <header>
           <div>
-            <span>FITCOACH.</span>
+            <BrandLogo className="legal-modal__logo" />
             <h2 id="legal-modal-title">{title}</h2>
           </div>
 

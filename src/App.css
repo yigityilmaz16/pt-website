@@ -1,3 +1,11 @@
+.brand-logo-image {
+  display: block;
+  width: 210px;
+  height: 54px;
+  object-fit: cover;
+  object-position: center;
+}
+
 .navbar {
   position: absolute;
   z-index: 20;
@@ -20,14 +28,11 @@
 
 .navbar__logo {
   flex-shrink: 0;
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
 }
 
-.navbar__logo span {
-  color: #e10600;
+.navbar__logo .brand-logo-image {
+  width: 250px;
+  height: 64px;
 }
 
 .navbar__menu,
@@ -272,6 +277,11 @@
     min-height: 76px;
   }
 
+  .navbar__logo .brand-logo-image {
+    width: 188px;
+    height: 48px;
+  }
+
   .navbar__toggle {
     position: relative;
     z-index: 2;
@@ -460,14 +470,7 @@
 }
 
 .checkout-logo {
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.checkout-logo span {
-  color: #e10600;
+  flex-shrink: 0;
 }
 
 .checkout-layout {
@@ -711,11 +714,9 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.09);
 }
 
-.legal-modal__panel > header span {
-  color: #ff3b35;
-  font-size: 0.68rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
+.legal-modal__logo {
+  width: 180px;
+  height: 46px;
 }
 
 .legal-modal__panel > header h2 {
@@ -1051,14 +1052,7 @@
 }
 
 .legal-logo {
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.legal-logo span {
-  color: #e10600;
+  flex-shrink: 0;
 }
 
 .legal-back {
@@ -1184,14 +1178,7 @@
 }
 
 .assessment-logo {
-  color: #fff;
-  font-size: 1.35rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.assessment-logo span {
-  color: #e10600;
+  flex-shrink: 0;
 }
 
 .assessment-header > span {
@@ -1422,15 +1409,10 @@
   text-align: center;
 }
 
-.assessment-status-card > span {
-  color: #fff;
-  font-size: 1rem;
-  font-weight: 900;
-  letter-spacing: -0.03em;
-}
-
-.assessment-status-card > span::first-letter {
-  color: #fff;
+.assessment-status-logo {
+  width: min(100%, 240px);
+  height: 62px;
+  margin: 0 auto;
 }
 
 .assessment-status-card h1 {
@@ -3705,16 +3687,9 @@
   margin: 0;
 }
 
-.footer-left p:first-child {
-  color: #fff;
-  font-size: clamp(1.45rem, 2.5vw, 2rem);
-  font-weight: 950;
-  letter-spacing: -0.045em;
-}
-
-.footer-left p:first-child::after {
-  color: #e10600;
-  content: ".";
+.footer-brand-logo {
+  width: 250px;
+  height: 64px;
 }
 
 .footer-left p:last-child {
@@ -3892,6 +3867,11 @@
     margin-left: auto;
   }
 
+  .footer-brand-logo {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   .footer-between {
     grid-column: 1;
     grid-row: auto;
@@ -3953,14 +3933,7 @@
 }
 
 .program-detail__logo {
-  font-size: 1.45rem;
-  font-weight: 950;
-  letter-spacing: -0.04em;
-}
-
-.program-detail__logo::after {
-  color: #e10600;
-  content: ".";
+  flex-shrink: 0;
 }
 
 .program-detail__back {
@@ -4381,16 +4354,10 @@
 }
 
 .admin-brand {
-  display: inline-block;
+  display: block;
+  width: 220px;
+  height: 56px;
   margin-bottom: 28px;
-  color: #fff;
-  font-size: 1.25rem;
-  font-weight: 900;
-  letter-spacing: -0.04em;
-}
-
-.admin-brand span {
-  color: #e10600;
 }
 
 .admin-login__eyebrow,

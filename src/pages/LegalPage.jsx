@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom"
+import BrandLogo from "../components/BrandLogo"
 
 function LegalPage({ eyebrow, title, updatedAt, children }) {
   return (
     <main className="legal-page">
       <header className="legal-header">
         <Link className="legal-logo" to="/">
-          FITCOACH<span>.</span>
+          <BrandLogo />
         </Link>
 
         <Link className="legal-back" to="/">

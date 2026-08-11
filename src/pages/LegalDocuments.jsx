@@ -16,7 +16,7 @@ export function PrivacyPolicy() {
     >
       <h2>Politikanın Kapsamı</h2>
       <p>
-        Bu politika, FITCOACH internet sitesi üzerinden sunulan online kişisel
+        Bu politika, Eren Serbest internet sitesi üzerinden sunulan online kişisel
         antrenörlük ve koçluk hizmetleri kapsamında elde edilen bilgilerin nasıl
         kullanıldığını ve korunduğunu açıklar.
       </p>
@@ -159,7 +159,7 @@ export function DistanceSalesAgreement() {
       <p>
         Güncel paket bedeli sipariş öncesinde kullanıcıya gösterilir. Ödeme,
         sitede belirtilen güvenli ödeme kuruluşu aracılığıyla gerçekleştirilir.
-        Kart bilgileri FITCOACH tarafından saklanmaz.
+        Kart bilgileri Eren Serbest tarafından saklanmaz.
       </p>
 
       <h2>Cayma, İptal ve İade</h2>
