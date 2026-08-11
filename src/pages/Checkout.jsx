@@ -47,7 +47,7 @@ function Checkout() {
 
         <aside className="checkout-summary">
           <span>SEÇİLEN PROGRAM</span>
-          <h2>{program.duration} Program</h2>
+          <h2>{program.name}</h2>
           <p>{program.description}</p>
           <strong>{program.price}</strong>
           <CheckoutForm program={program} />

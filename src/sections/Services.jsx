@@ -21,6 +21,9 @@ function Services(){
                     <del>{program.oldPrice}</del>
                     <span className="service-card__discount">{program.discount}</span>
                     <h4>{program.price}</h4>
+                    <p className="service-card__tagline">
+                        Kişinin form durumuna ve hedefine yönelik;
+                    </p>
                     <ul>
                         {program.features.map((feature,index) =>(
                             <li key={index}>{feature}</li>

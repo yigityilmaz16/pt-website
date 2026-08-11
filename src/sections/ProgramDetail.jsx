@@ -28,7 +28,7 @@ function ProgramDetail(){
                 <div className="program-detail__info">
                     <div className="program-detail__content">
                         <span className="program-detail__label">ONLINE KOÇLUK PROGRAMI</span>
-                        <h1>{program.duration} Program</h1>
+                        <h1>{program.name}</h1>
                         <p>{program.description}</p>
 
                         <div className="program-detail__price">
