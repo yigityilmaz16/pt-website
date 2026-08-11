@@ -26,7 +26,7 @@ function Services(){
                             <li key={index}>{feature}</li>
                         ))}
                     </ul>
-                    <Link to={`/services/${program.slug}`}>Programı İncele</Link>
+                    <Link to={`/services/${program.slug}`}>Paketi İncele</Link>
                 </div>
             </article>
         ))}
