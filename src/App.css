@@ -2304,8 +2304,12 @@
   opacity: 0.82;
 }
 
-.service-card__visual .service-card__image--12-weeks {
+.service-card__visual .service-card__image--3-aylik-paket {
   object-position: 68% center;
+}
+
+.service-card__visual .service-card__image--6-aylik-paket {
+  object-position: 66% 40%;
 }
 
 .service-card__body {
