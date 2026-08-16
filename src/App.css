@@ -2304,6 +2304,10 @@
   opacity: 0.82;
 }
 
+.service-card__visual .service-card__image--12-weeks {
+  object-position: 68% center;
+}
+
 .service-card__body {
   position: relative;
   z-index: 2;

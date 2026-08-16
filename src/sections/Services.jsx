@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import programs from "../data/programs";
 import programImage from "../assets/program-trainer.jpg";
+import twelveWeekProgramImage from "../assets/program-trainer-12-weeks.webp";
 
 function Services(){
     return(
@@ -14,7 +15,11 @@ function Services(){
             <article className={`service-card ${program.popular ? "service-card--popular" : ""}`} key={program.id}>
                 {program.popular && <span className="service-card__badge">En Popüler</span>}
                 <div className="service-card__visual" aria-hidden="true">
-                    <img src={programImage} alt="" />
+                    <img
+                        className={program.slug === "3-aylik-paket" ? "service-card__image--12-weeks" : ""}
+                        src={program.slug === "3-aylik-paket" ? twelveWeekProgramImage : programImage}
+                        alt=""
+                    />
                 </div>
                 <div className="service-card__body">
                     <h3>{program.name}</h3>
