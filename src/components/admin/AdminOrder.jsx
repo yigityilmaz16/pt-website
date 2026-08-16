@@ -127,7 +127,7 @@ const assessmentLabels = {
               </div>
 
               <p className="admin-card__meta">
-                Sipariş: {order.orderNumber}
+                Sipariş Numarası: {order.orderNumber}
               </p>
 
               <strong className="admin-order__price">

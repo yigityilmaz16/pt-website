@@ -54,7 +54,7 @@ function Assessment() {
   const assessmentData = {
     age: Number(formData.get("age")),
     gender: formData.get("gender"),
-    heightCm: Number(formData.get("heightCm")),
+    heightCm: formData.get("heightCm"),
     weightKg: Number(formData.get("weightKg")),
     goal: formData.get("goal"),
     trainingLevel: formData.get("trainingLevel"),
@@ -179,8 +179,15 @@ if (assessmentInfo?.completed) {
               </select>
             </label>
             <label>
-              Boy (cm)
-              <input name="heightCm" type="number" min="120" max="230" required />
+              Boy (cm veya metre)
+              <input
+                name="heightCm"
+                type="text"
+                inputMode="decimal"
+                placeholder="165 veya 1,65"
+                title="Boyunuzu 165 ya da 1,65 şeklinde girin"
+                required
+              />
             </label>
             <label>
               Kilo (kg)

@@ -116,7 +116,14 @@ app.post("/api/assessments/:token", async (req, res) => {
 } = req.body
 
 const parsedAge = Number(age)
-const parsedHeight = Number(heightCm)
+const heightValue = Number(
+  typeof heightCm === "string"
+    ? heightCm.trim().replace(",", ".")
+    : heightCm,
+)
+const parsedHeight = Number.isFinite(heightValue)
+  ? Math.round(heightValue <= 3 ? heightValue * 100 : heightValue)
+  : Number.NaN
 const parsedWeight = Number(weightKg)
 const parsedTrainingDays = Number(weeklyTrainingDays)
 
