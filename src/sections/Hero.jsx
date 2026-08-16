@@ -1,4 +1,4 @@
-import heroImage from '../assets/hero-pt.jpg'
+import heroImage from '../assets/hero-pt.webp'
 
 const stats = [
   { value: '100+', label: 'Danışan' },

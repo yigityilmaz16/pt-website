@@ -1,4 +1,4 @@
-import aboutImage from '../assets/about-trainer.jpg'
+import aboutImage from '../assets/about-trainer.webp'
 
 const highlights = [
   { value: '5+', label: 'Yıl Deneyim' },

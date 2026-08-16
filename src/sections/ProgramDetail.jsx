@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom"
-import programImage from "../assets/hero-pt.jpg"
+import programImage from "../assets/hero-pt.webp"
 import programs from "../data/programs"
 import BrandLogo from "../components/BrandLogo"
 
